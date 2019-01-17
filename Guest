@@ -1,1 +1,35 @@
-public class Guest{}
+public class Guest{
+  // fields
+  private boolean membership;
+  private boolean military;
+  private boolean government;
+  
+  private int numOfSeniors;
+  private int numOfAdults;
+  private int numOfChildren;
+  private boolean hasPets;
+  
+  private String name;
+  private int cardNumber;
+  // reservationDays
+  
+  private String bedSize;
+  private int bedNum;
+  private double roomService;
+  
+  public double costOfGuests(){
+    // calculate the total price of the Guest
+  }
+  
+  public void checkIn(){
+    // Guest check in 
+  }
+  
+  public void checkOut(){
+    // Guest check out
+  }
+  
+  public Guest(name, ){
+  
+  }
+}
