@@ -13,6 +13,8 @@ public class Room {
   private Guest guest;
   // whether the room allows for pets
   private boolean allowsPets;
+  // whether the room isCleaned
+  private boolean isCleaned;
   
   // the defualt constructor for the Room object
   public Room() {
@@ -22,7 +24,7 @@ public class Room {
     this.bedNum = 1;
     this.cost = 89.99;
     this.guest = null;
-    this.allowPets = false;
+    this.allowsPets = false;
   }
   
   // the constructor that will typically be used for Rooms
@@ -33,7 +35,7 @@ public class Room {
     this.bedNum = bedNum;
     this.cost = cost;
     this.guest = guest;
-    this.allowPets = allowPets;
+    this.allowsPets = allowPets;
   }
   
   // sets the number for the Room
@@ -61,13 +63,13 @@ public class Room {
   }
   
   // assigns a Guest object to the Room
-  pubic void setGuest(Guest guest) {
+  public void setGuest(Guest guest) {
     this.guest = guest;
   }
   
   // sets whether a Room allows for pets
   public void setAllowPets(boolean allowPets) {
-    this.allowPets = allowPets;
+    this.allowsPets = allowPets;
   }
   
   // gets the room number
@@ -101,25 +103,21 @@ public class Room {
   
   // gets whether a Room allows for pets
   public boolean getAllowPets() {
-    return this.allowPets;
+    return this.allowsPets;
   }
   
   // detaches any Guest from the room
   public void removeGuest() {
-    Guest = null;
+    guest = null;
   }
   
   // determines if the Room is empty
   public boolean isEmpty() {
-    if(guest == null) {
-      return true;
-    } else {
-      return false;
-    }
+    return guest == null;
   }
   
   // determines if the Room is cleaned
   public boolean isCleaned() {
-    
+    return isCleaned;
   }
 }
