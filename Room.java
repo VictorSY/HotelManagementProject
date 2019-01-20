@@ -25,6 +25,7 @@ public class Room {
     this.cost = 89.99;
     this.guest = null;
     this.allowsPets = false;
+      this.isCleaned = true;
   }
   
   // the constructor that will typically be used for Rooms
