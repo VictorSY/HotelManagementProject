@@ -129,7 +129,7 @@ public class Room {
             "\nRoom Size: " + roomSize +
             "\nBed Number: " + bedNum +
             "\nBed Size: " + bedSize +
-            "\nGuest: " + guest.toString() +
+            //"\nGuest: " + guest.toString() +    doesn't exist yet
             "\nPet allowed: " + allowsPets +
             "\nCleaned: " + isCleaned;
   }

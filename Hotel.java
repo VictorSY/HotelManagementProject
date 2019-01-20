@@ -15,38 +15,31 @@ public class Hotel {
         Scanner hotelData = new Scanner(new File(hotelInfoText));
         this.hotelName = hotelData.nextLine().trim();
         createHotelFloorsAndRooms(hotelData);
+        for (ArrayList<Room> floor : floors) {
+            for (Room room : floor) {
+                System.out.println(room.toString());
+            }
+        }
     }
 
     // Creates rooms on each floor with text file
-    /*
-     * What files should look like
-     *
-     * Hotel Name
-     * Floor 1's Number of Rooms    4
-     * Room1 Data
-     * Room2 Data
-     * Room3 Data
-     * Room4 Data
-     * Floor 2's Number of Rooms    1
-     * Room Data
-     * Floor 3's Number of Rooms    1
-     * Room Data
-     */
     private void createHotelFloorsAndRooms(Scanner hotelData) {
         int floor = 0;
         while (hotelData.hasNextLine()) {
             floor++;
+            ArrayList<Room> newFloor = new ArrayList<>();
             int numberOfRooms = hotelData.nextInt();
             hotelData.nextLine(); // takes escape characters at the end of the line into account
             for (int room = 0; room < numberOfRooms; room++) {
                 String textData = hotelData.nextLine();
                 if (room < 10) {
-                    textData += " room number " + floor + "0" + room;
+                    textData += " room number " + floor + "0" + (room + 1);
                 } else {
-                    textData += " room number " + floor + room;
+                    textData += " room number " + floor + (room + 1);
                 }
-                createRoomFromText(textData);
+                newFloor.add(createRoomFromText(textData));
             }
+            floors.add(newFloor);
         }
     }
 
@@ -59,7 +52,6 @@ public class Hotel {
         String word;
         for (int element = 0; element < roomData.length; element++) {
             word = roomData[element];
-            System.out.print(word + " ");
             switch (word) {
                 case "pet":
                     element++;
@@ -70,7 +62,6 @@ public class Hotel {
                     break;
                 case "room":
                     element++;
-                    System.out.print(roomData[element]);
                     if (roomData[element].equals("size")) {
                         element++;
                         room.setRoomSize(Integer.parseInt(roomData[element]));
@@ -81,14 +72,11 @@ public class Hotel {
                     break;
                 case "bed":
                     element++;
-                    System.out.print(roomData[element]);
                     if (roomData[element].equals("size")) {
                         element++;
-                        System.out.print(roomData[element]);
                         room.setBedSize(roomData[element]);
                     } else if (roomData[element].equals("number")) {
                         element++;
-                        System.out.print(roomData[element]);
                         room.setBedNum(Integer.parseInt(roomData[element]));
                     } else {
                         System.out.print("Text file error: bed _____ invalid");
@@ -97,15 +85,12 @@ public class Hotel {
                     break;
                 case "cost":
                     element++;
-                    System.out.print(roomData[element]);
                     room.setCost(Double.parseDouble(roomData[element]));
                     break;
                 default:
                     throw new IllegalArgumentException();
             }
-            System.out.print(" ");
         }
-        System.out.println();
         return room;
     }
 
