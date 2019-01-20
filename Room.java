@@ -25,7 +25,7 @@ public class Room {
     this.cost = 89.99;
     this.guest = null;
     this.allowsPets = false;
-      this.isCleaned = true;
+    this.isCleaned = true;
   }
   
   // the constructor that will typically be used for Rooms
@@ -48,6 +48,7 @@ public class Room {
   public void setRoomSize(int roomSize) {
     this.roomSize = roomSize;
   }
+
   // sets type of bed for the Room
   public void setBedSize(String bedSize) {
     this.bedSize = bedSize;
@@ -59,7 +60,7 @@ public class Room {
   }
   
   // sets the cost of the Room
-  public void setCost(int cost) {
+  public void setCost(double cost) {
     this.cost = cost;
   }
   
@@ -120,5 +121,16 @@ public class Room {
   // determines if the Room is cleaned
   public boolean isCleaned() {
     return isCleaned;
+  }
+
+  public String toString() {
+    return "Room Number: " + roomNum +
+            "\nRoom Cost: " + cost +
+            "\nRoom Size: " + roomSize +
+            "\nBed Number: " + bedNum +
+            "\nBed Size: " + bedSize +
+            "\nGuest: " + guest.toString() +
+            "\nPet allowed: " + allowsPets +
+            "\nCleaned: " + isCleaned;
   }
 }

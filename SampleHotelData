@@ -1,7 +1,8 @@
 Sample Hotel 1
 2
-Room Data
-Room Data
-2
-Room Data
-Room Data
+cost $50.00 bed size=king pet YeS bed number:52 ;'';'\ room size 300
+cost 60 bed size beetle pet no bed number 0 room size 200
+3
+cost $50.00 bed size=king pet YeS bed number:52 ;'';'\ room size 300
+cost 60 bed size beetle pet no bed number 0 room size 200
+cost 60 bed size beetle pet no bed number 0 room size 200

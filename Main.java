@@ -5,6 +5,6 @@ public class Main {
 
     public static void main(String[] args) throws FileNotFoundException {
         ArrayList<Hotel> hotels = new ArrayList<Hotel>();
-        hotels.add(new Hotel("SampleHotelData.txt"));
+        hotels.add(new Hotel("SampleHotelData"));
     }
 }
