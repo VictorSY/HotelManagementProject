@@ -1,16 +1,14 @@
 public class Guest{
   // all discounts apply 0.8 to total coast
-  private boolean membership; 
-  private boolean military; 
-  private boolean government;
+  private boolean isMembership; 
+  private boolean isMilitary; 
+  private boolean isGovernment;
+  private boolean hasPets;
   
   private double basicPricePerPerson = 100;
   private int numOfSeniors; //50
   private int numOfAdults; //100
   private int numOfChildren; //30
-  
-  
-  private boolean pets;
   
   private String name;
   private int cardNum;
@@ -20,13 +18,13 @@ public class Guest{
   private int bedNum;
   
   public Guest(){
-      this.membership = false;
-      this.military = false;
-      this.government = false;
+      this.isMembership = false;
+      this.isMilitary = false;
+      this.isGovernment = false;
       this.numOfSeniors = 0;
       this.numOfAdults = 0;
       this.numOfChildren = 0;
-      this.pets = false;
+      this.hasPets = false;
       
       this.name = "";
       this.cardNum = 0;
@@ -35,17 +33,17 @@ public class Guest{
       this.bedNum = 0;
   }  
   
-  public Guest(boolean membership, boolean military, boolean government,
+  public Guest(boolean isMembership, boolean isMilitary, boolean isGovernment,
                 int numOfSeniors, int numOfAdults, int numOfChildren,
-                boolean pets, String name, int cardNum, String bedType
+                boolean hasPets, String name, int cardNum, String bedType
                 , int bedNum){
-      this.membership = membership;
-      this.military = military;
-      this.government = government;
+      this.isMembership = isMembership;
+      this.isMilitary = isMilitary;
+      this.isGovernment = isGovernment;
       this.numOfSeniors = numOfSeniors;
       this.numOfAdults = numOfAdults;
       this.numOfChildren = numOfChildren;
-      this.pets = pets;
+      this.hasPets = hasPets;
       
       this.name = name;
       this.cardNum = cardNum;
@@ -60,7 +58,7 @@ public class Guest{
       // I haven't use basicPricePerPerson yet for the cost
       
       double total = (numOfSeniors*50 + numOfAdults*100 + numOfChildren*30);
-      if(membership == true || military == true || government == true){
+      if(isMembership == true || isMilitary == true || isGovernment == true){
           total *= 0.8;
         }         
       return total;
