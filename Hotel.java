@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Hotel {
@@ -7,7 +8,7 @@ public class Hotel {
     private String hotelName;
 
 
-    private Room[][] floors;
+    private ArrayList<ArrayList<Room>> floors = new ArrayList<>();
 
     public Hotel(String hotelInfoText) throws FileNotFoundException {
         Scanner hotelData = new Scanner(new File(hotelInfoText));
@@ -15,12 +16,11 @@ public class Hotel {
         createHotelFloorsAndRooms(hotelData);
     }
 
-    // Creates rooms on each floor with default constructor
+    // Creates rooms on each floor with text file
     /*
      * What files should look like
      *
      * Hotel Name
-     * Number of floors             2
      * Floor 1's Number of Rooms    4
      * Room1 Data
      * Room2 Data
@@ -32,8 +32,17 @@ public class Hotel {
      * Room Data
      */
     private void createHotelFloorsAndRooms(Scanner hotelData) {
+        while (hotelData.hasNextLine()) {
+            int numberOfRooms = hotelData.nextInt();
+            for (int room = 0; room < numberOfRooms; room++) {
+                hotelData.nextLine();
+            }
+        }
+    }
 
 
+    private Room createRoomFromText(String roomData) {
+        return new Room();
     }
 
     // Uses scanner to prompt for guest info
