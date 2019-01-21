@@ -23,7 +23,8 @@ public class Room {
     this.bedSize = "Twin";
     this.bedNum = 1;
     this.cost = 89.99;
-    this.guest = null;
+    // changed the Guest value to default so the toString method would work properly
+    this.guest = new Guest();
     this.allowsPets = false;
     this.isCleaned = true;
   }
@@ -129,7 +130,7 @@ public class Room {
             "\nRoom Size: " + roomSize +
             "\nBed Number: " + bedNum +
             "\nBed Size: " + bedSize +
-            //"\nGuest: " + guest.toString() +    doesn't exist yet
+            "\nGuest: " + guest.toString() +    //doesn't exist yet
             "\nPet allowed: " + allowsPets +
             "\nCleaned: " + isCleaned;
   }
