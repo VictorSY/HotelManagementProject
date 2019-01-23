@@ -5,10 +5,9 @@ public class Guest{
   private boolean isGovernment;
   private boolean hasPets;
   
-  private double basicPricePerPerson = 100;
-  private int numOfSeniors; //50
-  private int numOfAdults; //100
-  private int numOfChildren; //30
+  private int numOfSeniors; //*4.99
+  private int numOfAdults; //*9.99
+  private int numOfChildren; //*3.99
   
   private String name;
   private int cardNum;
@@ -57,20 +56,11 @@ public class Guest{
   
   public double costOfGuests(){
     // calculate the total cost of the Guest
-    // I haven't use basicPricePerPerson yet for the cost
     
-    // possible other option with reasonable additional charges for cost of guests, would be added to the cost of room
-    //double total = (numOfSeniors*4.99 + numOfAdults*9.99 + numOfChildren*3.99);
-    //if(isMembership == true || isMilitary == true || isGovernment == true){
-      //total *= 0.8;
-    //}         
-    //return total;
-  //}
-    
-    double total = (numOfSeniors*50 + numOfAdults*100 + numOfChildren*30);
+    double total = (numOfSeniors*4.99 + numOfAdults*9.99 + numOfChildren*3.99);
     if(isMembership == true || isMilitary == true || isGovernment == true){
       total *= 0.8;
-    }         
+    }        
     return total;
   }
   
