@@ -61,20 +61,23 @@ public class Guest{
         System.out.print("What is your full name? ");
         this.name = console.nextLine().trim();
         System.out.println();
-        System.out.print("What is your credit card number? (no spaces)");
-        this.cardNum = Integer.parseInt(console.nextLine().trim());
-        System.out.println();
+
+        System.out.println("For the next few questions answer with a single integer.");
+        this.cardNum = numberOfQuestions("What is your credit card number? (no spaces)", console);
+        this.numOfAdults = numberOfQuestions("How many adults? ", console);
+        this.numOfSeniors = numberOfQuestions("How many seniors? ", console);
+        this.numOfChildren = numberOfQuestions("How many children? ", console);
         System.out.println("For the next few questions answer with Y or N.");
         this.isMembership = yesOrNoQuestions("Do you have a hotel membership? ", console);
         this.isMembership = yesOrNoQuestions("Are you a veteran? ", console);
         this.isGovernment = yesOrNoQuestions("Are you a government employee? ", console);
+        this.hasPets = yesOrNoQuestions("Do you have pets? ", console);
 
     }
 
     private boolean yesOrNoQuestions(String question, Scanner console) {
         System.out.print(question);
-        String answer = console.nextLine();
-        answer = answer.toLowerCase();
+        String answer = console.nextLine().toLowerCase();
         if (answer.contains("n")) {
             return false;
         } else if (answer.contains("y")) {
@@ -94,7 +97,6 @@ public class Guest{
                 break;
             } catch (NumberFormatException e) {
                 System.out.println("Invalid input. Try again.");
-                continue;
             }
         }
         return answer;
@@ -102,7 +104,6 @@ public class Guest{
 
     public double costOfGuests(){
         // calculate the total cost of the Guest
-
         double total = (numOfSeniors*4.99 + numOfAdults*9.99 + numOfChildren*3.99);
         if(isMembership == true || isMilitary == true || isGovernment == true){
             total *= 0.8;
@@ -122,7 +123,9 @@ public class Guest{
 
     // the toString method
     public String toString() {
-        return "Membership: " + isMembership +
+        return "Name: " + name +
+                "\nCard Number: " + cardNum +
+                "\nMembership: " + isMembership +
                 "\nMilitary Discount: " + isMilitary +
                 "\nGovernment Discount: " + isGovernment +
                 "\nHas Pets: " + hasPets +
