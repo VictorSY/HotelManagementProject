@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class Guest{
+public class Guest {
     // all discounts apply 0.8 to total coast
     private boolean isMembership;
     private boolean isMilitary;
@@ -23,7 +23,7 @@ public class Guest{
     private Room room;
 
 
-    public Guest(){
+    public Guest() {
         this.isMembership = false;
         this.isMilitary = false;
         this.isGovernment = false;
@@ -42,7 +42,7 @@ public class Guest{
     public Guest(boolean isMembership, boolean isMilitary, boolean isGovernment,
                  int numOfSeniors, int numOfAdults, int numOfChildren,
                  boolean hasPets, String name, int cardNum, String bedType
-            , int bedNum){
+            , int bedNum) {
         this.isMembership = isMembership;
         this.isMilitary = isMilitary;
         this.isGovernment = isGovernment;
@@ -96,7 +96,7 @@ public class Guest{
 
     }
 
-    private boolean yesOrNoQuestions(String question, Scanner console) {
+    public static boolean yesOrNoQuestions(String question, Scanner console) {
         System.out.print(question);
         String answer = console.nextLine().toLowerCase();
         if (answer.contains("n")) {
@@ -109,7 +109,7 @@ public class Guest{
         }
     }
 
-    public int numberOfQuestions(String question, Scanner console) {
+    public static int numberOfQuestions(String question, Scanner console) {
         int answer;
         System.out.print(question);
         while (true) {
@@ -123,27 +123,26 @@ public class Guest{
         return answer;
     }
 
-    public double costOfGuests(){
+    public double costOfGuests() {
         // calculate the total cost of the Guest
-        double total = (numOfSeniors*4.99 + numOfAdults*9.99 + numOfChildren*3.99);
-        if(isMembership == true || isMilitary == true || isGovernment == true){
+        double total = (numOfSeniors * 4.99 + numOfAdults * 9.99 + numOfChildren * 3.99);
+        if (isMembership || isMilitary || isGovernment) {
             total *= 0.8;
         }
         return total;
     }
 
-    public void checkIn(){
+    public void checkIn() {
         // Guest check in (use Room class)
         room.setGuest(this);
     }
 
-    public void checkOut(){
+    public void checkOut() {
         // Guest check out (use Room class)
         room.removeGuest();
     }
 
 
-    // Getters for all fields
     public boolean isMembership() {
         return isMembership;
     }
@@ -156,7 +155,7 @@ public class Guest{
         return isGovernment;
     }
 
-    public boolean isHasPets() {
+    public boolean hasPets() {
         return hasPets;
     }
 
@@ -194,6 +193,14 @@ public class Guest{
 
     public Room getRoom() {
         return room;
+    }
+
+    public void assignRoom(Room room) {
+        if (room == null) {
+            this.room = room;
+        } else {
+            System.out.println(name + " already has a room");
+        }
     }
 
     // the toString method

@@ -1,14 +1,14 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class Hotel {
 
     private String hotelName;
+    Scanner console = new Scanner(System.in);
 
-
+    private ArrayList<Guest> guestList = new ArrayList<>();
     private ArrayList<ArrayList<Room>> floors = new ArrayList<>();
 
     public Hotel(String hotelInfoText) throws FileNotFoundException {
@@ -37,14 +37,14 @@ public class Hotel {
                 } else {
                     textData += " room number " + floor + (room + 1);
                 }
-                newFloor.add(createRoomFromText(textData));
+                newFloor.add(new Room(textData)); // previous argument createRoomFromText(textData)
             }
             floors.add(newFloor);
         }
     }
 
 
-    private Room createRoomFromText(String roomStringData) {
+/*    private Room createRoomFromText(String roomStringData) {
         // Removes all non-letter/non-digit characters
         roomStringData = roomStringData.toLowerCase().replaceAll("[^a-z0-9. \\s+]", " ");
         String[] roomData = roomStringData.split("\\s+"); // splits by whitespace
@@ -92,7 +92,7 @@ public class Hotel {
             }
         }
         return room;
-    }
+    } */
 
     // Uses scanner to prompt for guest info
     public Guest createGuest() {
@@ -105,15 +105,40 @@ public class Hotel {
     }
 
     public int findRoomForGuest(Guest guest) {
-//        for(ArrayList<Room> floor : floors) {
-//            for(Room room : floor) {
-//                if(() && () && () &&)
-//            }
-//        }
+        for (ArrayList<Room> floor : floors) {
+            for (Room room : floor) {
+                if (room.getGuest() != null) { // Check if room is empty
+                    continue;
+                } else if (!room.isCleaned()) {  // Check if room is cleaned
+                    continue;
+                } else if (guest.getBedNum() > room.getBedNum()) { // Check guest req for number of beds
+                    continue;
+                } else if (guest.getBedType().equals(room.getBedSize())) { // Check guest req for bed type
+                    continue;
+                } else if (guest.getRoomSize() > room.getRoomSize()) { // Check guest req for room size
+                    continue;
+                } else if (guest.hasPets() == room.getAllowPets()) { // Check guest req for pets
+                    continue;
+                } else if (makeReservation(guest, room.getRoomNumber(), console)) { // Check if guest accepted reservation
+                    break;
+                }
+            }
+        }
         return 0;
     }
 
-    public void makeReservation(Guest guest, int roomNumber) {
+    private boolean makeReservation(Guest guest, int roomNumber, Scanner console) {
+        System.out.println("Do you want to reserve room: " + roomNumber);
+        System.out.println(floors.get(roomNumber / 100).get(roomNumber % 100));
+        if (Guest.yesOrNoQuestions("Yes or No: ", console)) {
+            floors.get(roomNumber / 100).get(roomNumber % 100).setGuest(guest);
+            guest.assignRoom(floors.get(roomNumber / 100).get(roomNumber % 100));
+            System.out.println("You have reserved room " + roomNumber + ". Thank you for choosing " + hotelName + ".");
+            return true;
+        } else {
+            System.out.println("Looking for other rooms...");
+            return false;
+        }
     }
 
     public void cancelReservation(Guest guest, int roomNumber) {
