@@ -17,8 +17,11 @@ public class Guest{
 
     private String bedType;
     private int bedNum;
+    private int roomSize;
+
     // added Room object to facilitate the integration of the class
     private Room room;
+
 
     public Guest(){
         this.isMembership = false;
@@ -67,6 +70,24 @@ public class Guest{
         this.numOfAdults = numberOfQuestions("How many adults? ", console);
         this.numOfSeniors = numberOfQuestions("How many seniors? ", console);
         this.numOfChildren = numberOfQuestions("How many children? ", console);
+        this.bedNum = numberOfQuestions("How many beds? ", console);
+        int bedType = numberOfQuestions("What bed type? (king = 1, queen = 2, twin = 3, single = 4) ", console);
+        switch (bedType) {
+            case 1:
+                this.bedType = "king";
+                break;
+            case 2:
+                this.bedType = "queen";
+                break;
+            case 3:
+                this.bedType = "twin";
+                break;
+            case 4:
+                this.bedType = "single";
+                break;
+            default:
+                this.bedType = "twin";
+        }
         System.out.println("For the next few questions answer with Y or N.");
         this.isMembership = yesOrNoQuestions("Do you have a hotel membership? ", console);
         this.isMembership = yesOrNoQuestions("Are you a veteran? ", console);

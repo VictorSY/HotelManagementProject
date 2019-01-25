@@ -105,9 +105,12 @@ public class Hotel {
     }
 
     public int findRoomForGuest(Guest guest) {
-        String requirementsText = guest.toString();
-        // Potentially add a toArray for the guest's requirements.
-        return 0;
+//        for(ArrayList<Room> floor : floors) {
+//            for(Room room : floor) {
+//                if(() && () && () &&)
+//            }
+//        }
+//        return 0;
     }
 
     public void makeReservation(Guest guest, int roomNumber) {
