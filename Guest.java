@@ -142,6 +142,60 @@ public class Guest{
         room.removeGuest();
     }
 
+
+    // Getters for all fields
+    public boolean isMembership() {
+        return isMembership;
+    }
+
+    public boolean isMilitary() {
+        return isMilitary;
+    }
+
+    public boolean isGovernment() {
+        return isGovernment;
+    }
+
+    public boolean isHasPets() {
+        return hasPets;
+    }
+
+    public int getNumOfSeniors() {
+        return numOfSeniors;
+    }
+
+    public int getNumOfAdults() {
+        return numOfAdults;
+    }
+
+    public int getNumOfChildren() {
+        return numOfChildren;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getCardNum() {
+        return cardNum;
+    }
+
+    public String getBedType() {
+        return bedType;
+    }
+
+    public int getBedNum() {
+        return bedNum;
+    }
+
+    public int getRoomSize() {
+        return roomSize;
+    }
+
+    public Room getRoom() {
+        return room;
+    }
+
     // the toString method
     public String toString() {
         return "Name: " + name +
@@ -154,5 +208,6 @@ public class Guest{
                 "\nNumber of Adults: " + numOfAdults +
                 "\nNumber of Children: " + numOfChildren;
     }
+
 
 }

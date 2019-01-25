@@ -110,7 +110,7 @@ public class Hotel {
 //                if(() && () && () &&)
 //            }
 //        }
-//        return 0;
+        return 0;
     }
 
     public void makeReservation(Guest guest, int roomNumber) {
