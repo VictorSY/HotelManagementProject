@@ -145,9 +145,9 @@ public class Hotel {
     public void cancelReservation(Guest guest) {
         if (Guest.yesOrNoQuestions("Are you sure you want to cancel? ", console)) {
             guest.checkOut();
-            String receipt = receipt(guest);
-            int dollarSignLocation = receipt.indexOf("$");
-            receipt = receipt.substring(0, dollarSignLocation) + "-" + receipt.substring(dollarSignLocation); // adds negative sign to signify refund
+            String reciept = receipt(guest);
+            int dollarSignLocation = reciept.indexOf("$");
+            reciept = reciept.substring(0, dollarSignLocation) + "-" + reciept.substring(dollarSignLocation); // adds negative sign to signify refund
         }
 
     }
