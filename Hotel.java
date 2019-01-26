@@ -133,6 +133,7 @@ public class Hotel {
         System.out.println(floors.get(roomNumber / 100 - 1).get(roomNumber % 100 - 2)); // Minus 2 because element 0 is room 1 so room 3 is stored in element 1
         if (Guest.yesOrNoQuestions("Yes or No: ", console)) {
             guest.checkIn(floors.get(roomNumber / 100 - 1).get(roomNumber % 100 - 2)); // Minus 1 because first floor is element 0
+            guestList.add(guest);
             System.out.println("You have reserved room " + roomNumber + ". Thank you for choosing " + hotelName + ".");
             System.out.println(receipt(guest));
             return true;
@@ -146,6 +147,7 @@ public class Hotel {
         if (Guest.yesOrNoQuestions("Are you sure you want to cancel? ", console)) {
             guest.checkOut();
             String reciept = receipt(guest);
+            guestList.remove(guest);
             int dollarSignLocation = reciept.indexOf("$");
             reciept = reciept.substring(0, dollarSignLocation) + "-" + reciept.substring(dollarSignLocation); // adds negative sign to signify refund
         }
