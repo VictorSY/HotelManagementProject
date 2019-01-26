@@ -107,7 +107,7 @@ public class Hotel {
     public int findRoomForGuest(Guest guest) {
         for (ArrayList<Room> floor : floors) {
             for (Room room : floor) {
-                if (room.getGuest() != null) { // Check if room is empty
+                if (!room.isEmpty()) { // Check if room is empty
                     continue;
                 } else if (!room.isCleaned()) {  // Check if room is cleaned
                     continue;
@@ -129,10 +129,10 @@ public class Hotel {
 
     private boolean makeReservation(Guest guest, int roomNumber, Scanner console) {
         System.out.println("Do you want to reserve room: " + roomNumber);
-        System.out.println(floors.get(roomNumber / 100).get(roomNumber % 100));
+        System.out.println(floors.get(roomNumber / 100 - 1).get(roomNumber % 100 - 2)); // Minus 2 because element 0 is room 1 so room 3 is stored in element 1
         if (Guest.yesOrNoQuestions("Yes or No: ", console)) {
-            floors.get(roomNumber / 100).get(roomNumber % 100).setGuest(guest);
-            guest.assignRoom(floors.get(roomNumber / 100).get(roomNumber % 100));
+            floors.get(roomNumber / 100 - 1).get(roomNumber % 100 - 2).setGuest(guest);
+            guest.assignRoom(floors.get(roomNumber / 100 - 1).get(roomNumber % 100 - 2)); // Minus 1 because first floor is element 0
             System.out.println("You have reserved room " + roomNumber + ". Thank you for choosing " + hotelName + ".");
             return true;
         } else {
@@ -142,6 +142,10 @@ public class Hotel {
     }
 
     public void cancelReservation(Guest guest, int roomNumber) {
+        if (Guest.yesOrNoQuestions("Are you sure you want to cancel? ", console)) {
+
+        }
+
     }
 
     public String receipt(Guest guest, int roomNumber) {
