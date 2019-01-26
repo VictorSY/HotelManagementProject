@@ -88,6 +88,7 @@ public class Guest {
             default:
                 this.bedType = "twin";
         }
+        this.roomSize = numberOfQuestions("How big do you require the room to be? ", console);
         System.out.println("For the next few questions answer with Y or N.");
         this.isMembership = yesOrNoQuestions("Do you have a hotel membership? ", console);
         this.isMembership = yesOrNoQuestions("Are you a veteran? ", console);
