@@ -198,14 +198,6 @@ public class Guest {
         return room;
     }
 
-    public void assignRoom(Room room) {
-        if (room == null) {
-            this.room = room;
-        } else {
-            System.out.println(name + " already has a room");
-        }
-    }
-
     // the toString method
     public String toString() {
         return "Name: " + name +

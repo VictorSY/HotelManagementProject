@@ -40,6 +40,7 @@ public class Room {
         this.cost = cost;
         this.guest = guest;
         this.allowsPets = allowPets;
+        this.isCleaned = true;
     }
 
     // Temporary room creation
@@ -186,7 +187,7 @@ public class Room {
                 "\nRoom Size: " + roomSize +
                 "\nBed Number: " + bedNum +
                 "\nBed Size: " + bedSize +
-                "\nGuest: " + guest.toString() +
+                "\nGuest: " + guest +
                 "\nPet allowed: " + allowsPets +
                 "\nCleaned: " + isCleaned;
     }

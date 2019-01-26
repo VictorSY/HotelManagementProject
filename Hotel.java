@@ -95,8 +95,9 @@ public class Hotel {
     } */
 
     // Uses scanner to prompt for guest info
-    public Guest createGuest() {
-        return new Guest();
+    public void createGuest() {
+        Guest guest = new Guest(console);
+        findRoomForGuest(guest);
     }
 
     // returns cost of room and cost of total guests
@@ -127,7 +128,7 @@ public class Hotel {
         return 0;
     }
 
-    private boolean makeReservation(Guest guest, int roomNumber, Scanner console) {
+    public boolean makeReservation(Guest guest, int roomNumber, Scanner console) {
         System.out.println("Do you want to reserve room: " + roomNumber);
         System.out.println("Cost: $" + totalCost(guest, floors.get(roomNumber / 100 - 1).get(roomNumber % 100 - 2)));
         System.out.println(floors.get(roomNumber / 100 - 1).get(roomNumber % 100 - 2)); // Minus 2 because element 0 is room 1 so room 3 is stored in element 1
@@ -160,6 +161,15 @@ public class Hotel {
                 "Billing Info: " + guest.getCardNum() + "\n" +
                 guest.getRoom().toString() + "\n" +
                 "Cost: $" + totalCost(guest, guest.getRoom()) + "\n";
+    }
+
+    public Guest findGuestInList(String name) {
+        for (Guest guest : guestList) {
+            if (guest.getName().equals(name)) {
+                return guest;
+            }
+        }
+        throw new IllegalArgumentException();
     }
 
 }
