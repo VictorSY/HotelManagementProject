@@ -101,7 +101,7 @@ public class Hotel {
 
     // returns cost of room and cost of total guests
     public double totalCost(Guest guest, Room room) {
-        return (room.getCost() + guest.costOfGuests());
+        return (room.getCost(guest.isGovernment() || guest.isMilitary() || guest.isMembership()) + guest.costOfGuests());
     }
 
     public int findRoomForGuest(Guest guest) {
@@ -129,11 +129,12 @@ public class Hotel {
 
     private boolean makeReservation(Guest guest, int roomNumber, Scanner console) {
         System.out.println("Do you want to reserve room: " + roomNumber);
+        System.out.println("Cost: $" + totalCost(guest, floors.get(roomNumber / 100 - 1).get(roomNumber % 100 - 2)));
         System.out.println(floors.get(roomNumber / 100 - 1).get(roomNumber % 100 - 2)); // Minus 2 because element 0 is room 1 so room 3 is stored in element 1
         if (Guest.yesOrNoQuestions("Yes or No: ", console)) {
-            floors.get(roomNumber / 100 - 1).get(roomNumber % 100 - 2).setGuest(guest);
-            guest.assignRoom(floors.get(roomNumber / 100 - 1).get(roomNumber % 100 - 2)); // Minus 1 because first floor is element 0
+            guest.checkIn(floors.get(roomNumber / 100 - 1).get(roomNumber % 100 - 2)); // Minus 1 because first floor is element 0
             System.out.println("You have reserved room " + roomNumber + ". Thank you for choosing " + hotelName + ".");
+            System.out.println(receipt(guest));
             return true;
         } else {
             System.out.println("Looking for other rooms...");
@@ -141,15 +142,22 @@ public class Hotel {
         }
     }
 
-    public void cancelReservation(Guest guest, int roomNumber) {
+    public void cancelReservation(Guest guest) {
         if (Guest.yesOrNoQuestions("Are you sure you want to cancel? ", console)) {
-
+            guest.checkOut();
+            String receipt = receipt(guest);
+            int dollarSignLocation = receipt.indexOf("$");
+            receipt = receipt.substring(0, dollarSignLocation) + "-" + receipt.substring(dollarSignLocation); // adds negative sign to signify refund
         }
 
     }
 
-    public String receipt(Guest guest, int roomNumber) {
-        return "";
+    public String receipt(Guest guest) {
+        return "Receipt\n" +
+                "Hotel: " + hotelName + "\n" +
+                "Billing Info: " + guest.getCardNum() + "\n" +
+                guest.getRoom().toString() + "\n" +
+                "Cost: $" + totalCost(guest, guest.getRoom()) + "\n";
     }
 
 }

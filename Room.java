@@ -132,8 +132,12 @@ public class Room {
     }
 
     // gets the cost of the Room
-    public double getCost() {
-        return this.cost;
+    public double getCost(boolean hasDiscount) {
+        if (hasDiscount) {
+            return this.cost * 0.8;
+        } else {
+            return this.cost;
+        }
     }
 
     // sets the cost of the Room

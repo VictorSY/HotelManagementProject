@@ -132,14 +132,16 @@ public class Guest {
         return total;
     }
 
-    public void checkIn() {
+    public void checkIn(Room room) {
         // Guest check in (use Room class)
-        room.setGuest(this);
+        this.room = room;
+        this.room.setGuest(this);
     }
 
     public void checkOut() {
         // Guest check out (use Room class)
         room.removeGuest();
+        room = null;
     }
 
 
