@@ -200,6 +200,10 @@ public class Guest {
         return room;
     }
 
+    public Guest getGuest(){
+        return this;
+    }
+    
     public void assignRoom(Room room) {
         if (room == null) {
             this.room = room;
