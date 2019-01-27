@@ -16,7 +16,7 @@ public class Room {
     // whether the room allows for pets
     private boolean allowsPets;
     // whether the room isCleaned
-    private boolean isCleaned;
+    private boolean isCleaned = true;
 
     // the default constructor for the Room object
     public Room() {
@@ -28,7 +28,6 @@ public class Room {
         // changed the Guest value to default so the toString method would work properly
         this.guest = new Guest();
         this.allowsPets = false;
-        this.isCleaned = true;
     }
 
     // the constructor that will typically be used for Rooms
@@ -177,13 +176,18 @@ public class Room {
     }
 
     public String toString() {
+      // checks to see if the guest exists
+      if(guest != null) {
+        // prints out the details of the room, removed repeat values other than allowsPets
         return "Room Number: " + roomNum +
-                "\nRoom Cost: " + cost +
-                "\nRoom Size: " + roomSize +
-                "\nBed Number: " + bedNum +
-                "\nBed Size: " + bedSize +
-                "\nGuest: " + guest.toString() +
-                "\nPet allowed: " + allowsPets +
-                "\nCleaned: " + isCleaned;
+          "\nRoom Cost: " + cost +
+          "\nRoom Size: " + roomSize +
+          "\nBed Number: " + bedNum +
+          "\nBed Size: " + bedSize +
+          "\nPet allowed: " + allowsPets +
+          "\nCleaned: " + isCleaned;
+      } else {
+        return "";
+      }
     }
 }
