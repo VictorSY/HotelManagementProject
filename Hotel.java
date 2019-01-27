@@ -97,7 +97,9 @@ public class Hotel {
     // Uses scanner to prompt for guest info
     public void createGuest() {
         Guest guest = new Guest(console);
-        findRoomForGuest(guest);
+        if (findRoomForGuest(guest) == 0) {
+            System.out.println("Sorry, no room found.");
+        }
     }
 
     // returns cost of room and cost of total guests
@@ -151,8 +153,10 @@ public class Hotel {
             guestList.remove(guest);
             int dollarSignLocation = receipt.indexOf("$");
             receipt = receipt.substring(0, dollarSignLocation) + "-" + receipt.substring(dollarSignLocation); // adds negative sign to signify refund
+            System.out.println(receipt);
+        } else {
+            System.out.println("Exited cancellation process.");
         }
-
     }
 
     public String receipt(Guest guest) {

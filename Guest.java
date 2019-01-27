@@ -217,7 +217,7 @@ public class Guest {
     // the toString method
     // chnaged up the method it account for null
     public String toString() {
-      if(this == null) {
+        if (this == null) { // This doesn't make sense. You can't call if it is null.
         return null;
       } else {
         return "Guest: " +
@@ -230,7 +230,7 @@ public class Guest {
                 "\nNumber of Seniors: " + numOfSeniors +
                 "\nNumber of Adults: " + numOfAdults +
                 "\nNumber of Children: " + numOfChildren +
-                "\nRoom: ";
+                "\nRoom: " + room;
       }
     }
 
