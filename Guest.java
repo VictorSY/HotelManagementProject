@@ -90,7 +90,7 @@ public class Guest {
         }
         System.out.println("For the next few questions answer with Y or N.");
         this.isMembership = yesOrNoQuestions("Do you have a hotel membership? ", console);
-        this.isMembership = yesOrNoQuestions("Are you a veteran? ", console);
+        this.isMilitary = yesOrNoQuestions("Are you a veteran? ", console);
         this.isGovernment = yesOrNoQuestions("Are you a government employee? ", console);
         this.hasPets = yesOrNoQuestions("Do you have pets? ", console);
 
@@ -140,6 +140,11 @@ public class Guest {
     public void checkOut() {
         // Guest check out (use Room class)
         room.removeGuest();
+    }
+    
+    // added this method to make an easy connection between the two objects, much more is needed
+    public void createARoom() {
+      room = new Room(42, 330, bedType, bedNum, 89.99 + costOfGuests(), this, hasPets);
     }
 
 
@@ -204,8 +209,13 @@ public class Guest {
     }
 
     // the toString method
+    // chnaged up the method it account for null
     public String toString() {
-        return "Name: " + name +
+      if(this == null) {
+        return null;
+      } else {
+        return "Guest: " +
+                "\nName: " + name +
                 "\nCard Number: " + cardNum +
                 "\nMembership: " + isMembership +
                 "\nMilitary Discount: " + isMilitary +
@@ -213,8 +223,8 @@ public class Guest {
                 "\nHas Pets: " + hasPets +
                 "\nNumber of Seniors: " + numOfSeniors +
                 "\nNumber of Adults: " + numOfAdults +
-                "\nNumber of Children: " + numOfChildren;
+                "\nNumber of Children: " + numOfChildren +
+                "\nRoom: ";
+      }
     }
-
-
 }
