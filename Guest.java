@@ -88,10 +88,9 @@ public class Guest {
             default:
                 this.bedType = "twin";
         }
-        this.roomSize = numberOfQuestions("How big do you require the room to be? ", console);
         System.out.println("For the next few questions answer with Y or N.");
         this.isMembership = yesOrNoQuestions("Do you have a hotel membership? ", console);
-        this.isMembership = yesOrNoQuestions("Are you a veteran? ", console);
+        this.isMilitary = yesOrNoQuestions("Are you a veteran? ", console);
         this.isGovernment = yesOrNoQuestions("Are you a government employee? ", console);
         this.hasPets = yesOrNoQuestions("Do you have pets? ", console);
 
@@ -143,6 +142,11 @@ public class Guest {
         // Guest check out (use Room class)
         room.removeGuest();
         room = null;
+    }
+
+    // added this method to make an easy connection between the two objects, much more is needed
+    public void createARoom() {
+      room = new Room(42, 330, bedType, bedNum, 89.99 + costOfGuests(), this, hasPets);
     }
 
 
@@ -198,9 +202,26 @@ public class Guest {
         return room;
     }
 
+    public Guest getGuest(){
+        return this;
+    }
+
+    public void assignRoom(Room room) {
+        if (room == null) {
+            this.room = room;
+        } else {
+            System.out.println(name + " already has a room");
+        }
+    }
+
     // the toString method
+    // chnaged up the method it account for null
     public String toString() {
-        return "Name: " + name +
+      if(this == null) {
+        return null;
+      } else {
+        return "Guest: " +
+                "\nName: " + name +
                 "\nCard Number: " + cardNum +
                 "\nMembership: " + isMembership +
                 "\nMilitary Discount: " + isMilitary +
@@ -208,7 +229,9 @@ public class Guest {
                 "\nHas Pets: " + hasPets +
                 "\nNumber of Seniors: " + numOfSeniors +
                 "\nNumber of Adults: " + numOfAdults +
-                "\nNumber of Children: " + numOfChildren;
+                "\nNumber of Children: " + numOfChildren +
+                "\nRoom: ";
+      }
     }
 
 
