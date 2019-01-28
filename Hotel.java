@@ -15,11 +15,11 @@ public class Hotel {
         Scanner hotelData = new Scanner(new File(hotelInfoText));
         this.hotelName = hotelData.nextLine().trim();
         createHotelFloorsAndRooms(hotelData);
-        for (ArrayList<Room> floor : floors) {
-            for (Room room : floor) {
-                System.out.println(room.toString());
-            }
-        }
+//        for (ArrayList<Room> floor : floors) {
+//            for (Room room : floor) {
+//                System.out.println(room.toString() + '\n');
+//            }
+//        }
     }
 
     // Creates rooms on each floor with text file
@@ -44,61 +44,13 @@ public class Hotel {
     }
 
 
-/*    private Room createRoomFromText(String roomStringData) {
-        // Removes all non-letter/non-digit characters
-        roomStringData = roomStringData.toLowerCase().replaceAll("[^a-z0-9. \\s+]", " ");
-        String[] roomData = roomStringData.split("\\s+"); // splits by whitespace
-        Room room = new Room();
-        String word;
-        for (int element = 0; element < roomData.length; element++) {
-            word = roomData[element];
-            switch (word) {
-                case "pet":
-                    element++;
-                    String[] formsOfYes = {"yes", "true", "allow", "allowed"};
-                    if (Arrays.asList(formsOfYes).contains(roomData[element])) {
-                        room.setAllowPets(true);
-                    }
-                    break;
-                case "room":
-                    element++;
-                    if (roomData[element].equals("size")) {
-                        element++;
-                        room.setRoomSize(Integer.parseInt(roomData[element]));
-                    } else if (roomData[element].equals("number")) {
-                        element++;
-                        room.setRoomNum(Integer.parseInt(roomData[element]));
-                    }
-                    break;
-                case "bed":
-                    element++;
-                    if (roomData[element].equals("size")) {
-                        element++;
-                        room.setBedSize(roomData[element]);
-                    } else if (roomData[element].equals("number")) {
-                        element++;
-                        room.setBedNum(Integer.parseInt(roomData[element]));
-                    } else {
-                        System.out.print("Text file error: bed _____ invalid");
-                        throw new IllegalArgumentException();
-                    }
-                    break;
-                case "cost":
-                    element++;
-                    room.setCost(Double.parseDouble(roomData[element]));
-                    break;
-                default:
-                    throw new IllegalArgumentException();
-            }
-        }
-        return room;
-    } */
-
     // Uses scanner to prompt for guest info
     public void createGuest() {
         Guest guest = new Guest(console);
         if (findRoomForGuest(guest) == 0) {
             System.out.println("Sorry, no room found.");
+        } else {
+            guestList.add(guest);
         }
     }
 
@@ -108,6 +60,7 @@ public class Hotel {
     }
 
     public int findRoomForGuest(Guest guest) {
+        System.out.println(guest);
         for (ArrayList<Room> floor : floors) {
             for (Room room : floor) {
                 if (!room.isEmpty()) { // Check if room is empty
@@ -116,28 +69,31 @@ public class Hotel {
                     continue;
                 } else if (guest.getBedNum() > room.getBedNum()) { // Check guest req for number of beds
                     continue;
-                } else if (guest.getBedType().equals(room.getBedSize())) { // Check guest req for bed type
+                } else if(!guest.getBedType().equals(room.getBedSize())) { // Check guest req for bed type
                     continue;
                 } else if (guest.getRoomSize() > room.getRoomSize()) { // Check guest req for room size
                     continue;
-                } else if (guest.hasPets() == room.getAllowPets()) { // Check guest req for pets
+                } else if(guest.hasPets() != room.getAllowPets()) { // Check guest req for pets
                     continue;
-                } else if (makeReservation(guest, room.getRoomNumber(), console)) { // Check if guest accepted reservation
-                    break;
+                } else if(makeReservation(guest, room, console)) { // Check if guest accepted reservation
+                    return room.getRoomNumber();
                 }
             }
         }
         return 0;
     }
 
-    public boolean makeReservation(Guest guest, int roomNumber, Scanner console) {
-        System.out.println("Do you want to reserve room: " + roomNumber);
-        System.out.println("Cost: $" + totalCost(guest, floors.get(roomNumber / 100 - 1).get(roomNumber % 100 - 2)));
-        System.out.println(floors.get(roomNumber / 100 - 1).get(roomNumber % 100 - 2)); // Minus 2 because element 0 is room 1 so room 3 is stored in element 1
+    public boolean makeReservation(Guest guest, Room room, Scanner console) {
+        System.out.println("Do you want to reserve room: " + room.getRoomNumber());
+        System.out.print("Cost: $");
+        System.out.printf(totalCost(guest, room) + "\n", "%.2f");
+        System.out.println(room);
         if (Guest.yesOrNoQuestions("Yes or No: ", console)) {
-            guest.checkIn(floors.get(roomNumber / 100 - 1).get(roomNumber % 100 - 2)); // Minus 1 because first floor is element 0
+            if(!guest.checkIn(room)) {
+                return false;
+            }
             guestList.add(guest);
-            System.out.println("You have reserved room " + roomNumber + ". Thank you for choosing " + hotelName + ".");
+            System.out.println("You have reserved room " + room + ". Thank you for choosing " + hotelName + ".");
             System.out.println(receipt(guest));
             return true;
         } else {
@@ -161,10 +117,12 @@ public class Hotel {
 
     public String receipt(Guest guest) {
         return "Receipt\n" +
-                "Hotel: " + hotelName + "\n" +
-                "Billing Info: " + guest.getCardNum() + "\n" +
-                guest.getRoom().toString() + "\n" +
-                "Cost: $" + totalCost(guest, guest.getRoom()) + "\n";
+                "\tHotel: " + hotelName +
+                "\n\tGuest: " + guest.getName() +
+                "\n\tBilling Info: " + guest.getCardNum() +
+                "\n\t" + guest.getRoom().toString() +
+                "\n\tCost: $" + totalCost(guest, guest.getRoom()) + "\n" +
+                guest.toString();
     }
 
     public Guest findGuestInList(String name) {
@@ -174,6 +132,20 @@ public class Hotel {
             }
         }
         throw new IllegalArgumentException();
+    }
+
+    public String toString() {
+        String returnString = hotelName + "\n";
+        for(ArrayList<Room> floor : floors) {
+            for(Room room : floor) {
+                returnString += (room.toString() + "\n\n");
+            }
+        }
+        return returnString;
+    }
+
+    public ArrayList<Guest> getGuestList() {
+        return guestList;
     }
 
 }

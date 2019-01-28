@@ -12,12 +12,12 @@ public class Guest {
     private int numOfChildren; //*3.99
 
     private String name;
-    private int cardNum;
+    private long cardNum;
     // reservationDays
 
     private String bedType;
     private int bedNum;
-    private int roomSize;
+    private int roomSize = 0;
 
     // added Room object to facilitate the integration of the class
     private Room room;
@@ -66,10 +66,11 @@ public class Guest {
         System.out.println();
 
         System.out.println("For the next few questions answer with a single integer.");
-        this.cardNum = numberOfQuestions("What is your credit card number? (no spaces)", console);
+        this.cardNum = getCreditCard(console);
         this.numOfAdults = numberOfQuestions("How many adults? ", console);
         this.numOfSeniors = numberOfQuestions("How many seniors? ", console);
         this.numOfChildren = numberOfQuestions("How many children? ", console);
+        this.roomSize = numberOfQuestions("How big does your room need to be? (square feet) ", console);
         this.bedNum = numberOfQuestions("How many beds? ", console);
         int bedType = numberOfQuestions("What bed type? (king = 1, queen = 2, twin = 3, single = 4) ", console);
         switch (bedType) {
@@ -96,16 +97,41 @@ public class Guest {
 
     }
 
+    public static long getCreditCard(Scanner console) {
+        System.out.print("What is our card number? ");
+        long cardNumber;
+        String input;
+        while(true) {
+            try {
+                input = console.nextLine().replaceAll("[^0-9]", "");
+                if(input.length() < 16) {
+                    throw new NumberFormatException();
+                }
+                cardNumber = Long.parseLong(input);
+                break;
+            } catch(NumberFormatException e) {
+                System.out.println("Invalid number. Try again.");
+                System.out.print("What is our card number? ");
+            }
+        }
+        return cardNumber;
+    }
+
     public static boolean yesOrNoQuestions(String question, Scanner console) {
-        System.out.print(question);
-        String answer = console.nextLine().toLowerCase();
-        if (answer.contains("n")) {
-            return false;
-        } else if (answer.contains("y")) {
-            return true;
-        } else {
-            System.out.println("Invalid input. Please try again.");
-            return yesOrNoQuestions(question, console);
+        while(true) {
+            try {
+                System.out.print(question);
+                String answer = console.nextLine().toLowerCase();
+                if(answer.contains("n")) {
+                    return false;
+                } else if(answer.contains("y")) {
+                    return true;
+                } else {
+                    throw new IllegalArgumentException();
+                }
+            } catch(IllegalArgumentException e) {
+                System.out.println("Invalid input. Try again.");
+            }
         }
     }
 
@@ -118,6 +144,7 @@ public class Guest {
                 break;
             } catch (NumberFormatException e) {
                 System.out.println("Invalid input. Try again.");
+                System.out.print(question);
             }
         }
         return answer;
@@ -132,10 +159,15 @@ public class Guest {
         return total;
     }
 
-    public void checkIn(Room room) {
+    public boolean checkIn(Room room) {
         // Guest check in (use Room class)
+        if(this.room != null) {
+            System.out.println(name + " already has a room");
+            return false;
+        }
         this.room = room;
         this.room.setGuest(this);
+        return true;
     }
 
     public void checkOut() {
@@ -182,7 +214,7 @@ public class Guest {
         return name;
     }
 
-    public int getCardNum() {
+    public long getCardNum() {
         return cardNum;
     }
 
@@ -206,32 +238,24 @@ public class Guest {
         return this;
     }
 
-    public void assignRoom(Room room) {
-        if (room == null) {
-            this.room = room;
-        } else {
-            System.out.println(name + " already has a room");
-        }
-    }
 
     // the toString method
-    // chnaged up the method it account for null
     public String toString() {
-        if (this == null) { // This doesn't make sense. You can't call if it is null.
-        return null;
-      } else {
-        return "Guest: " +
-                "\nName: " + name +
-                "\nCard Number: " + cardNum +
-                "\nMembership: " + isMembership +
-                "\nMilitary Discount: " + isMilitary +
-                "\nGovernment Discount: " + isGovernment +
-                "\nHas Pets: " + hasPets +
-                "\nNumber of Seniors: " + numOfSeniors +
-                "\nNumber of Adults: " + numOfAdults +
-                "\nNumber of Children: " + numOfChildren +
-                "\nRoom: " + room;
-      }
+        return "Guest Info " +
+                "\n\tName: " + name +
+                "\n\tCard Number: " + cardNum +
+                "\n\tMembership: " + isMembership +
+                "\n\tMilitary Discount: " + isMilitary +
+                "\n\tGovernment Discount: " + isGovernment +
+                "\n\tHas Pets: " + hasPets +
+                "\n\tNumber of Seniors: " + numOfSeniors +
+                "\n\tNumber of Adults: " + numOfAdults +
+                "\n\tNumber of Children: " + numOfChildren +
+                "\n\tBed Type: " + bedType +
+                "\n\tBed Number: " + bedNum +
+                "\n\tRoom Size: " + roomSize +
+                "\n\tRoom: " + room;
+
     }
 
 
