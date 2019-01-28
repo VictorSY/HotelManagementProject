@@ -4,7 +4,7 @@ public class Room {
     // the number assigned to a room
     private int roomNum;
     // the square footage of the room, the size
-    private int roomSize;
+    private int roomSize = 200;
     // the type of bed used in the room
     private String bedSize;
     // the number of beds in the room
@@ -180,18 +180,12 @@ public class Room {
     }
 
     public String toString() {
-      // checks to see if the guest exists
-      if(guest != null) {
-        // prints out the details of the room, removed repeat values other than allowsPets
         return "Room Number: " + roomNum +
-          "\nRoom Cost: " + cost +
-          "\nRoom Size: " + roomSize +
-          "\nBed Number: " + bedNum +
-          "\nBed Size: " + bedSize +
-          "\nPet allowed: " + allowsPets +
-          "\nCleaned: " + isCleaned;
-      } else {
-        return "";
-      }
+                "\nRoom Cost: " + cost +
+                "\nRoom Size: " + roomSize +
+                "\nBed Number: " + bedNum +
+                "\nBed Size: " + bedSize +
+                "\nPet allowed: " + allowsPets +
+                "\nCleaned: " + isCleaned;
     }
 }
