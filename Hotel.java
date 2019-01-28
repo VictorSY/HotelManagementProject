@@ -120,7 +120,7 @@ public class Hotel {
                 "\tHotel: " + hotelName +
                 "\n\tGuest: " + guest.getName() +
                 "\n\tBilling Info: " + guest.getCardNum() +
-                guest.getRoom().toString() +
+                "\n\t" + guest.getRoom().toString() +
                 "\n\tCost: $" + totalCost(guest, guest.getRoom()) + "\n" +
                 guest.toString();
     }
