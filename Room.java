@@ -181,11 +181,11 @@ public class Room {
 
     public String toString() {
         return "Room Number: " + roomNum +
-                "\nRoom Cost: " + cost +
-                "\nRoom Size: " + roomSize +
-                "\nBed Number: " + bedNum +
-                "\nBed Size: " + bedSize +
-                "\nPet allowed: " + allowsPets +
-                "\nCleaned: " + isCleaned;
+                "\n\tRoom Cost: " + cost +
+                "\n\tRoom Size: " + roomSize +
+                "\n\tBed Number: " + bedNum +
+                "\n\tBed Size: " + bedSize +
+                "\n\tPet allowed: " + allowsPets +
+                "\n\tCleaned: " + isCleaned;
     }
 }

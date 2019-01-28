@@ -241,20 +241,20 @@ public class Guest {
 
     // the toString method
     public String toString() {
-        return "Guest: " +
-                "\nName: " + name +
-                "\nCard Number: " + cardNum +
-                "\nMembership: " + isMembership +
-                "\nMilitary Discount: " + isMilitary +
-                "\nGovernment Discount: " + isGovernment +
-                "\nHas Pets: " + hasPets +
-                "\nNumber of Seniors: " + numOfSeniors +
-                "\nNumber of Adults: " + numOfAdults +
-                "\nNumber of Children: " + numOfChildren +
-                "\nBed Type: " + bedType +
-                "\nBed Number: " + bedNum +
-                "\nRoom Size: " + roomSize +
-                "\nRoom: " + room;
+        return "Guest Info " +
+                "\n\tName: " + name +
+                "\n\tCard Number: " + cardNum +
+                "\n\tMembership: " + isMembership +
+                "\n\tMilitary Discount: " + isMilitary +
+                "\n\tGovernment Discount: " + isGovernment +
+                "\n\tHas Pets: " + hasPets +
+                "\n\tNumber of Seniors: " + numOfSeniors +
+                "\n\tNumber of Adults: " + numOfAdults +
+                "\n\tNumber of Children: " + numOfChildren +
+                "\n\tBed Type: " + bedType +
+                "\n\tBed Number: " + bedNum +
+                "\n\tRoom Size: " + roomSize +
+                "\n\tRoom: " + room;
 
     }
 

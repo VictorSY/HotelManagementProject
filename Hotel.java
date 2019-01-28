@@ -15,11 +15,11 @@ public class Hotel {
         Scanner hotelData = new Scanner(new File(hotelInfoText));
         this.hotelName = hotelData.nextLine().trim();
         createHotelFloorsAndRooms(hotelData);
-        for (ArrayList<Room> floor : floors) {
-            for (Room room : floor) {
-                System.out.println(room.toString() + '\n');
-            }
-        }
+//        for (ArrayList<Room> floor : floors) {
+//            for (Room room : floor) {
+//                System.out.println(room.toString() + '\n');
+//            }
+//        }
     }
 
     // Creates rooms on each floor with text file
@@ -117,10 +117,11 @@ public class Hotel {
 
     public String receipt(Guest guest) {
         return "Receipt\n" +
-                "Hotel: " + hotelName + "\n" +
-                "Billing Info: " + guest.getCardNum() + "\n" +
-                guest.getRoom().toString() + "\n" +
-                "Cost: $" + totalCost(guest, guest.getRoom()) + "\n" +
+                "\tHotel: " + hotelName +
+                "\n\tGuest: " + guest.getName() +
+                "\n\tBilling Info: " + guest.getCardNum() +
+                guest.getRoom().toString() +
+                "\n\tCost: $" + totalCost(guest, guest.getRoom()) + "\n" +
                 guest.toString();
     }
 
