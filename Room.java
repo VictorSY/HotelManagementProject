@@ -4,7 +4,7 @@ public class Room {
     // the number assigned to a room
     private int roomNum;
     // the square footage of the room, the size
-    private int roomSize = 200;
+    private int roomSize;
     // the type of bed used in the room
     private String bedSize;
     // the number of beds in the room
@@ -21,7 +21,7 @@ public class Room {
     // the default constructor for the Room object
     public Room() {
         this.roomNum = 0;
-        this.roomSize = 330;
+        this.roomSize = 300;
         this.bedSize = "Twin";
         this.bedNum = 1;
         this.cost = 89.99;
@@ -179,6 +179,7 @@ public class Room {
         return isCleaned;
     }
 
+    // creates a String to resemble the Object
     public String toString() {
         return "Room Number: " + roomNum +
                 "\n\tRoom Cost: " + cost +
