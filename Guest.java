@@ -116,7 +116,7 @@ public class Guest {
                 break;
             } catch(NumberFormatException e) {
                 System.out.println("Invalid number. Try again.");
-                System.out.print("What is our card number?\n");
+                System.out.print("What is your card number?\n");
             }
         }
         return cardNumber;
