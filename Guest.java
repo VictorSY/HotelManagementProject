@@ -61,18 +61,22 @@ public class Guest {
 
     // Guest creation through scanner
     public Guest(Scanner console) {
-        System.out.print("What is your full name? ");
+        System.out.print("What is your full name?\n");
         this.name = console.nextLine().trim();
         System.out.println();
 
         System.out.println("For the next few questions answer with a single integer.");
         this.cardNum = getCreditCard(console);
-        this.numOfAdults = numberOfQuestions("How many adults? ", console);
-        this.numOfSeniors = numberOfQuestions("How many seniors? ", console);
-        this.numOfChildren = numberOfQuestions("How many children? ", console);
-        this.roomSize = numberOfQuestions("How big does your room need to be? (square feet) ", console);
-        this.bedNum = numberOfQuestions("How many beds? ", console);
-        int bedType = numberOfQuestions("What bed type? (king = 1, queen = 2, twin = 3, single = 4) ", console);
+        this.numOfAdults = numberOfQuestions("How many adults?\n", console);
+        this.numOfSeniors = numberOfQuestions("How many seniors?\n", console);
+        this.numOfChildren = numberOfQuestions("How many children?\n", console);
+        this.roomSize = numberOfQuestions("How big does your room need to be? (square feet)\n Suite is 600"
+                                            + "\n Deluxe is 500\n Standard is 300\n", console);
+        this.bedNum = numberOfQuestions("How many beds? (1 or 2, NOTE: Standard only has 1)\n", console);
+        int bedType = numberOfQuestions("What bed type? (king = 1, queen = 2, twin = 3)\n"
+                                          + " Suite: has King single bed or Queen double beds\n" +
+                                        " Deluxe: has Queen single bed or Twin double beds\n" +
+                                        " Standard: only has Twin single bed\n", console);
         switch (bedType) {
             case 1:
                 this.bedType = "king";
@@ -83,22 +87,23 @@ public class Guest {
             case 3:
                 this.bedType = "twin";
                 break;
-            case 4:
-                this.bedType = "single";
-                break;
+                // twin and singles serve the same purpose + we have no singles in our hotel
+            // case 4:
+                // this.bedType = "single";
+                // break;
             default:
                 this.bedType = "twin";
         }
         System.out.println("For the next few questions answer with Y or N.");
-        this.isMembership = yesOrNoQuestions("Do you have a hotel membership? ", console);
+        this.isMembership = yesOrNoQuestions("Do you have a hotel membership?\n", console);
         this.isMilitary = yesOrNoQuestions("Are you a veteran? ", console);
-        this.isGovernment = yesOrNoQuestions("Are you a government employee? ", console);
-        this.hasPets = yesOrNoQuestions("Do you have pets? ", console);
+        this.isGovernment = yesOrNoQuestions("Are you a government employee?\n", console);
+        this.hasPets = yesOrNoQuestions("Do you have pets?\n", console);
 
     }
 
     public static long getCreditCard(Scanner console) {
-        System.out.print("What is our card number? ");
+        System.out.print("What is your card number?\n");
         long cardNumber;
         String input;
         while(true) {
@@ -111,7 +116,7 @@ public class Guest {
                 break;
             } catch(NumberFormatException e) {
                 System.out.println("Invalid number. Try again.");
-                System.out.print("What is our card number? ");
+                System.out.print("What is our card number?\n");
             }
         }
         return cardNumber;
@@ -238,7 +243,6 @@ public class Guest {
         return this;
     }
 
-
     // the toString method
     public String toString() {
         return "Guest Info " +
@@ -255,8 +259,5 @@ public class Guest {
                 "\n\tBed Number: " + bedNum +
                 "\n\tRoom Size: " + roomSize +
                 "\n\tRoom: " + room;
-
     }
-
-
 }
