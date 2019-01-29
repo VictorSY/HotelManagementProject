@@ -56,7 +56,8 @@ public class Hotel {
 
     // returns cost of room and cost of total guests
     public double totalCost(Guest guest, Room room) {
-        return (room.getCost(guest.isGovernment() || guest.isMilitary() || guest.isMembership()) + guest.costOfGuests());
+        return Math.round((room.getCost(guest.isGovernment() || guest.isMilitary() || guest.isMembership()) + 
+                           guest.costOfGuests())*100D)/100D;
     }
 
     public int findRoomForGuest(Guest guest) {
