@@ -1,5 +1,5 @@
 import java.util.Arrays;
-
+// The Room object to be associated with the Hotel
 public class Room {
     // the number assigned to a room
     private int roomNum;
