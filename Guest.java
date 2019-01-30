@@ -68,6 +68,11 @@ public class Guest {
   
   // Guest creation through scanner, the ideal Guest creation.
   public Guest(Scanner console) {
+    // Ends the program if user wants to
+    if(yesOrNoQuestions("Would you like to end the program? If so type \"yes\" if not type \"no\"\n", console)) {
+      System.exit(0);
+    }
+       
     // Welcomes a guest to the Hotel and provides info to cancel if already booked. 
     System.out.println("Welcome to our Hotel!\n\n");
     System.out.println("If you already have a reservation and would like to cancel please re-enter your information.");
