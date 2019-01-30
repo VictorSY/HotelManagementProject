@@ -5,7 +5,7 @@ public class Guest {
     private boolean isMembership;
     private boolean isMilitary;
     private boolean isGovernment;
-    private boolean hasPets;
+
 
     private int numOfSeniors; //*4.99
     private int numOfAdults; //*9.99
@@ -13,11 +13,10 @@ public class Guest {
 
     private String name;
     private long cardNum;
-    // reservationDays
-
     private String bedType;
     private int bedNum;
     private int roomSize = 0;
+    private boolean hasPets;
 
     // added Room object to facilitate the integration of the class
     private Room room;
@@ -42,7 +41,7 @@ public class Guest {
     public Guest(boolean isMembership, boolean isMilitary, boolean isGovernment,
                  int numOfSeniors, int numOfAdults, int numOfChildren,
                  boolean hasPets, String name, int cardNum, String bedType
-            , int bedNum) {
+            , int bedNum, int roomSize) {
         this.isMembership = isMembership;
         this.isMilitary = isMilitary;
         this.isGovernment = isGovernment;
@@ -56,6 +55,7 @@ public class Guest {
 
         this.bedType = bedType;
         this.bedNum = bedNum;
+        this.roomSize = roomSize;
 
     }
 
@@ -87,21 +87,21 @@ public class Guest {
             case 3:
                 this.bedType = "twin";
                 break;
-                // twin and singles serve the same purpose + we have no singles in our hotel
-            // case 4:
-                // this.bedType = "single";
-                // break;
+            case 4:
+                this.bedType = "full";
+                break;
             default:
                 this.bedType = "twin";
         }
         System.out.println("For the next few questions answer with Y or N.");
         this.isMembership = yesOrNoQuestions("Do you have a hotel membership?\n", console);
-        this.isMilitary = yesOrNoQuestions("Are you a veteran? ", console);
+        this.isMilitary = yesOrNoQuestions("Are you a veteran?\n", console);
         this.isGovernment = yesOrNoQuestions("Are you a government employee?\n", console);
         this.hasPets = yesOrNoQuestions("Do you have pets?\n", console);
 
     }
 
+    // Asks for credit card number (16 digits)
     public static long getCreditCard(Scanner console) {
         System.out.print("What is your card number?\n");
         long cardNumber;
@@ -122,6 +122,7 @@ public class Guest {
         return cardNumber;
     }
 
+    // Asks a question that requires yes or no response
     public static boolean yesOrNoQuestions(String question, Scanner console) {
         while(true) {
             try {
@@ -140,6 +141,7 @@ public class Guest {
         }
     }
 
+    // Asks a question that requires integer response
     public static int numberOfQuestions(String question, Scanner console) {
         int answer;
         System.out.print(question);
@@ -164,6 +166,7 @@ public class Guest {
         return total;
     }
 
+    // Adds guest to room if room is empty
     public boolean checkIn(Room room) {
         // Guest check in (use Room class)
         if(this.room != null) {
@@ -179,11 +182,6 @@ public class Guest {
         // Guest check out (use Room class)
         room.removeGuest();
         room = null;
-    }
-
-    // added this method to make an easy connection between the two objects, much more is needed
-    public void createARoom() {
-      room = new Room(42, 330, bedType, bedNum, 89.99 + costOfGuests(), this, hasPets);
     }
 
 
@@ -239,9 +237,6 @@ public class Guest {
         return room;
     }
 
-    public Guest getGuest(){
-        return this;
-    }
 
     // the toString method
     public String toString() {

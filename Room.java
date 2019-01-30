@@ -4,17 +4,17 @@ public class Room {
     // the number assigned to a room
     private int roomNum;
     // the square footage of the room, the size
-    private int roomSize;
+    private int roomSize = 300;
     // the type of bed used in the room
-    private String bedSize;
+    private String bedSize = "twin";
     // the number of beds in the room
-    private int bedNum;
+    private int bedNum = 1;
     // the cost of reserving this room
-    private double cost;
+    private double cost = 89.99;
     // the guest attached to this room
     private Guest guest;
     // whether the room allows for pets
-    private boolean allowsPets;
+    private boolean allowsPets = false;
     // whether the room isCleaned
     private boolean isCleaned = true;
 
@@ -22,7 +22,7 @@ public class Room {
     public Room() {
         this.roomNum = 0;
         this.roomSize = 300;
-        this.bedSize = "Twin";
+        this.bedSize = "twin";
         this.bedNum = 1;
         this.cost = 89.99;
         // changed the Guest value to default so the toString method would work properly
@@ -41,7 +41,7 @@ public class Room {
         this.allowsPets = allowPets;
     }
 
-    // Temporary room creation
+
     public Room(String roomStringData) {
         // Removes all non-letter/non-digit characters
         roomStringData = roomStringData.toLowerCase().replaceAll("[^a-z0-9. \\s+]", " ");

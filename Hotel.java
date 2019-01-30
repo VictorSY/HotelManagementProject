@@ -15,11 +15,6 @@ public class Hotel {
         Scanner hotelData = new Scanner(new File(hotelInfoText));
         this.hotelName = hotelData.nextLine().trim();
         createHotelFloorsAndRooms(hotelData);
-//        for (ArrayList<Room> floor : floors) {
-//            for (Room room : floor) {
-//                System.out.println(room.toString() + '\n');
-//            }
-//        }
     }
 
     // Creates rooms on each floor with text file
@@ -60,6 +55,7 @@ public class Hotel {
                            guest.costOfGuests())*100D)/100D;
     }
 
+    // Finds a room int the hotel given guest's requirements
     public int findRoomForGuest(Guest guest) {
         System.out.println(guest);
         for (ArrayList<Room> floor : floors) {
@@ -84,6 +80,7 @@ public class Hotel {
         return 0;
     }
 
+    // Confirms that the user wants to make a reservation
     public boolean makeReservation(Guest guest, Room room, Scanner console) {
         System.out.println("Do you want to reserve room: " + room.getRoomNumber());
         System.out.print("Cost: $");
@@ -103,6 +100,7 @@ public class Hotel {
         }
     }
 
+    // currently not implemented
     public void cancelReservation(Guest guest) {
         if (Guest.yesOrNoQuestions("Are you sure you want to cancel? ", console)) {
             guest.checkOut();
@@ -116,6 +114,7 @@ public class Hotel {
         }
     }
 
+    // Prints receipt
     public String receipt(Guest guest) {
         return "Receipt\n" +
                 "\tHotel: " + hotelName +
@@ -126,6 +125,7 @@ public class Hotel {
                 guest.toString();
     }
 
+    // Finds the guest in guestList and can be used to see what room they're in
     public Guest findGuestInList(String name) {
         for (Guest guest : guestList) {
             if (guest.getName().equals(name)) {
