@@ -73,32 +73,41 @@ public class Guest {
         this.roomSize = numberOfQuestions("How big does your room need to be? (square feet)\n Suite is 600"
                                             + "\n Deluxe is 500\n Standard is 300\n", console);
         this.bedNum = numberOfQuestions("How many beds? (1 or 2, NOTE: Standard only has 1)\n", console);
-        int bedType = numberOfQuestions("What bed type? (king = 1, queen = 2, twin = 3)\n"
-                                          + " Suite: has King single bed or Queen double beds\n" +
-                                        " Deluxe: has Queen single bed or Twin double beds\n" +
-                                        " Standard: only has Twin single bed\n", console);
-        switch (bedType) {
-            case 1:
-                this.bedType = "king";
-                break;
-            case 2:
-                this.bedType = "queen";
-                break;
-            case 3:
-                this.bedType = "twin";
-                break;
-            case 4:
-                this.bedType = "full";
-                break;
-            default:
-                this.bedType = "twin";
-        }
+        askBedType(console);
+
+
         System.out.println("For the next few questions answer with Y or N.");
         this.isMembership = yesOrNoQuestions("Do you have a hotel membership?\n", console);
         this.isMilitary = yesOrNoQuestions("Are you a veteran?\n", console);
         this.isGovernment = yesOrNoQuestions("Are you a government employee?\n", console);
         this.hasPets = yesOrNoQuestions("Do you have pets?\n", console);
 
+    }
+
+    private void askBedType(Scanner console) {
+        int bedType;
+        while(this.bedType == null) {
+            bedType = numberOfQuestions("What bed type? (king = 1, queen = 2, twin = 3)\n"
+                    + " Suite: has King single bed or Queen double beds\n" +
+                    " Deluxe: has Queen single bed or Twin double beds\n" +
+                    " Standard: only has Twin single bed\n", console);
+            switch(bedType) {
+                case 1:
+                    this.bedType = "king";
+                    break;
+                case 2:
+                    this.bedType = "queen";
+                    break;
+                case 3:
+                    this.bedType = "twin";
+                    break;
+                case 4:
+                    this.bedType = "full";
+                    break;
+                default:
+                    System.out.println("Invalid number. Please try again.");
+            }
+        }
     }
 
     // Asks for credit card number (16 digits)
