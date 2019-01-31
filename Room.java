@@ -1,43 +1,49 @@
 import java.util.Arrays;
-
+// The Room object to be associated with the Hotel
 public class Room {
     // the number assigned to a room
     private int roomNum;
     // the square footage of the room, the size
-    private int roomSize;
+    private int roomSize = 300;
     // the type of bed used in the room
-    private int bedSize;
+    private String bedSize = "twin";
     // the number of beds in the room
-    private int bedNum;
+    private int bedNum = 1;
     // the cost of reserving this room
-    private double cost;
+    private double cost = 89.99;
     // the guest attached to this room
     private Guest guest;
     // whether the room allows for pets
-    private boolean allowsPets;
+    private boolean allowsPets = false;
     // whether the room isCleaned
     private boolean isCleaned = true;
-    
+
     private boolean isReserved;
 
     // the default constructor for the Room object
     public Room() {
-        this(0, 330, 1, 1, 89.99, new Guest(), false, false);
+        this.roomNum = 0;
+        this.roomSize = 300;
+        this.bedSize = "twin";
+        this.bedNum = 1;
+        this.cost = 89.99;
+        // changed the Guest value to default so the toString method would work properly
+        this.guest = new Guest();
+        this.allowsPets = false;
     }
 
     // the constructor that will typically be used for Rooms
-    public Room(int roomNum, int roomSize, int bedSize, int bedNum, double cost, Guest guest, boolean allowPets, boolean isReserved) {
-        setRoomNum(roomNum);
-        setRoomSize(roomSize);
-        setBedSize(bedSize);
-        setBedNum(bedNum);
-        setCost(cost);
-        setGuest(guest);
-        setAllowPets(allowPets);
-        setReservation(isReserved);
+    public Room(int roomNum, int roomSize, String bedSize, int bedNum, double cost, Guest guest, boolean allowPets) {
+        this.roomNum = roomNum;
+        this.roomSize = roomSize;
+        this.bedSize = bedSize;
+        this.bedNum = bedNum;
+        this.cost = cost;
+        this.guest = guest;
+        this.allowsPets = allowPets;
     }
 
-    // Temporary room creation
+
     public Room(String roomStringData) {
         // Removes all non-letter/non-digit characters
         roomStringData = roomStringData.toLowerCase().replaceAll("[^a-z0-9. \\s+]", " ");
@@ -67,7 +73,7 @@ public class Room {
                     element++;
                     if (roomData[element].equals("size")) {
                         element++;
-                        this.setBedSize(Integer.parseInt(roomData[element]));
+                        this.setBedSize(roomData[element]);
                     } else if (roomData[element].equals("number")) {
                         element++;
                         this.setBedNum(Integer.parseInt(roomData[element]));
@@ -86,57 +92,47 @@ public class Room {
         }
     }
 
-    /* Mutators */
+    // sets the number for the Room
     public void setRoomNum(int roomNum) {
         this.roomNum = roomNum;
     }
 
-    public void setRoomSize(int roomSize) {
-        this.roomSize = roomSize;
-    }
-    
-    public void setBedSize(int bedSize) {
-        this.bedSize = bedSize;
-    }
-    
-    public void setBedNum(int bedNum) {
-        this.bedNum = bedNum;
-    }
-    
-    public void setCost(double cost) {
-        this.cost = cost;
-    }
-    
-    public void setGuest(Guest guest) {
-        this.guest = guest;
-    }
-    
-     public void setAllowPets(boolean allowPets) {
-        this.allowsPets = allowPets;
-    }
-    
-    public void setReservation(boolean isReserved){
-        this.isReserved = isReserved;
-    }
-    
-    
-    /* Accessors */
-    public int getRoomNum() {
+    // gets the room number
+    public int getRoomNumber() {
         return this.roomNum;
     }
 
+    // gets the size of the Room
     public int getRoomSize() {
         return this.roomSize;
     }
 
-    public int getBedSize() {
+    // sets the size of the Room
+    public void setRoomSize(int roomSize) {
+        this.roomSize = roomSize;
+    }
+
+    // gets the type of bed for the Room
+    public String getBedSize() {
         return this.bedSize;
     }
 
+    // sets type of bed for the Room
+    public void setBedSize(String bedSize) {
+        this.bedSize = bedSize;
+    }
+
+    // gets the number of beds for the Room
     public int getBedNum() {
         return this.bedNum;
     }
 
+    // sets the number of beds in the Room
+    public void setBedNum(int bedNum) {
+        this.bedNum = bedNum;
+    }
+
+    // gets the cost of the Room
     public double getCost(boolean hasDiscount) {
         if (hasDiscount) {
             return this.cost * 0.8;
@@ -145,22 +141,33 @@ public class Room {
         }
     }
 
+    // sets the cost of the Room
+    public void setCost(double cost) {
+        this.cost = cost;
+    }
+
+    // gets the Guest object attached to the Room
     public Guest getGuest() {
         return this.guest;
     }
 
+    // assigns a Guest object to the Room
+    public void setGuest(Guest guest) {
+        this.guest = guest;
+    }
+
+    // gets whether a Room allows for pets
     public boolean getAllowPets() {
         return this.allowsPets;
     }
 
-    public boolean getReservation(){
-        return this.isReserved;
+    // sets whether a Room allows for pets
+    public void setAllowPets(boolean allowPets) {
+        this.allowsPets = allowPets;
     }
-    
-    
-    
+
     // detaches any Guest from the room
-    public void removeGuest(Guest guest) {
+    public void removeGuest() {
         guest = null;
     }
 
@@ -169,36 +176,24 @@ public class Room {
         return guest == null;
     }
 
+    // Sets if room is clean
+    public void setCleaned(boolean isCleaned) {
+        this.isCleaned = isCleaned;
+    }
+
     // determines if the Room is cleaned
     public boolean isCleaned() {
         return isCleaned;
     }
 
+    // creates a String to resemble the Object
     public String toString() {
-        String bedSize;
-        if (this.bedSize == 1)
-            bedSize = "Twin";
-        else if(this.bedSize == 2)
-            bedSize = "Double";
-        else if(this.bedSize == 3)
-            bedSize = "Queen";
-        else if(this.bedSize == 4)
-            bedSize = "King";
-        else
-            bedSize = "Twin";
-        
-        // checks to see if the guest exists
-        if(guest != null) {
-            // prints out the details of the room, removed repeat values other than allowsPets
-            return "Room Number: " + roomNum +
-                   "\nRoom Cost: " + cost +
-                   "\nRoom Size: " + roomSize +
-                   "\nBed Number: " + bedNum +
-                   "\nBed Size: " + bedSize +
-                   "\nPet allowed: " + allowsPets +
-                   "\nCleaned: " + isCleaned;
-        } else {
-            return "";
-        }
+        return "Room Number: " + roomNum +
+                "\n\tRoom Cost: " + cost +
+                "\n\tRoom Size: " + roomSize +
+                "\n\tBed Number: " + bedNum +
+                "\n\tBed Size: " + bedSize +
+                "\n\tPet allowed: " + allowsPets +
+                "\n\tCleaned: " + isCleaned;
     }
 }
