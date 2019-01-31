@@ -9,7 +9,7 @@ public class Hotel {
   // A field to store the name of a Hotel
   private String hotelName;
   // The scanner to be used for command line prompts
-  Scanner console = new Scanner(System.in);
+  Scanner console;
   
   // stores the guests in the hotel
   private ArrayList<Guest> guestList = new ArrayList<>();
@@ -19,7 +19,9 @@ public class Hotel {
   private ArrayList<String> idList = new ArrayList<>();
   
   // creates the Hotel object using a .txt file
-  public Hotel(String hotelInfoText) throws FileNotFoundException {
+  public Hotel(String hotelInfoText, Scanner console) throws FileNotFoundException {
+      // Console input scanner assigned to object
+      this.console = console;
     Scanner hotelData = new Scanner(new File(hotelInfoText));
     // grabs the name of the Hotel from the file
     this.hotelName = hotelData.nextLine().trim();
@@ -74,7 +76,7 @@ public class Hotel {
       // if a Guest has made a reservation
     } else {
       // asks the Guest if they would like to cancel the Reservation
-      if(guest.yesOrNoQuestions("Seems like you have a reservation. Would you like to cancel? (Y or N)\n"
+        if(Guest.yesOrNoQuestions("Seems like you have a reservation. Would you like to cancel? (Y or N)\n"
                                   , console)) {
         // removes Guest from the guestList if they wanted to cancel the reservation
         guestList.remove(guest);
@@ -137,7 +139,19 @@ public class Hotel {
       return false;
     }
   }
-  
+
+    public void cancelReservation(Guest guest) {
+        if(Guest.yesOrNoQuestions("Are you sure you want to cancel? ", console)) {
+            String receipt = receipt(guest);
+            int dollarSignLocation = receipt.indexOf("$");
+            receipt = receipt.substring(0, dollarSignLocation) + "-" + receipt.substring(dollarSignLocation); // adds negative sign to signify refund
+            System.out.println(receipt);
+            guestList.remove(guest);
+            guest.checkOut();
+        } else {
+            System.out.println("Cancelled cancellation process.");
+        }
+    }
   
   // Prints receipt
   public String receipt(Guest guest) {

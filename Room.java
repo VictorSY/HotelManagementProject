@@ -174,6 +174,11 @@ public class Room {
         return guest == null;
     }
 
+    // Sets if room is clean
+    public void setCleaned(boolean isCleaned) {
+        this.isCleaned = isCleaned;
+    }
+
     // determines if the Room is cleaned
     public boolean isCleaned() {
         return isCleaned;
