@@ -62,30 +62,31 @@ public class Hotel {
 
   // Uses scanner to prompt for guest info
   public void createGuest() {
-    // creates a Guest using the console scanner as the parameter
-    Guest guest = new Guest(console);
-    // makes sure the Guest hasn't made a reservation
-    if(!idList.contains(guest.getUniqueId())) {
-      // finds a room for a guest and adds them to the guesList if they book the room
-      if (findRoomForGuest(guest) == 0) {
-        System.out.println("Sorry, no room found.");
+      // creates a Guest using the console scanner as the parameter
+      Guest guest = new Guest(console);
+      // makes sure the Guest hasn't made a reservation
+      if(!idList.contains(guest.getUniqueId())) {
+          // finds a room for a guest and adds them to the guesList if they book the room
+          if(findRoomForGuest(guest) == 0) {
+              System.out.println("Sorry, no room found.");
+          } else {
+              guestList.add(guest);
+              idList.add(guest.getUniqueId());
+          }
+          // if a Guest has made a reservation
       } else {
-        guestList.add(guest);
-        idList.add(guest.getUniqueId());
+          // asks the Guest if they would like to cancel the Reservation
+          if(Guest.yesOrNoQuestions("Seems like you have a reservation. Would you like to cancel? (Y or N)\n"
+                  , console)) {
+              // removes Guest from the guestList if they wanted to cancel the reservation
+              guestList.remove(guest);
+              // removes their Unique ID from the database
+              idList.remove(guest.getUniqueId());
+              // gives the Guest a notificion that their cancellation was a success
+              System.out.println("Success! Thank you for your stay!");
+          }
       }
-      // if a Guest has made a reservation
-    } else {
-      // asks the Guest if they would like to cancel the Reservation
-        if(Guest.yesOrNoQuestions("Seems like you have a reservation. Would you like to cancel? (Y or N)\n"
-                                  , console)) {
-        // removes Guest from the guestList if they wanted to cancel the reservation
-        guestList.remove(guest);
-        // removes their Unique ID from the database
-        idList.remove(guest.getUniqueId());
-        // gives the Guest a notificion that their cancellation was a success
-        System.out.println("Success! Thank you for your stay!");
-      }
-    }
+  }
 
     public void setResDate(String date1, String date2){
         String d1 = date1.replace("/", "");
@@ -103,21 +104,12 @@ public class Hotel {
         Date to = new Date(day2, month2, year2);
     }
 
-    //returns cost of room and cost of total guests
-    public double totalCost(Guest guest, Room room) {
-        return (room.getCost(guest.isGovernment() || guest.isMilitary() || guest.isMembership()) + guest.costOfGuests());
-    }
 
     public void checkIn(Room room, Guest guest) {
         // Guest check in (use Room class)
         room.setGuest(guest);
     }
 
-    public void checkOut(Room room, Guest guest) {
-        // Guest check out (use Room class)
-        room.removeGuest(guest);
-        room = null;
-    }
 
 
     public boolean makeReservation(Guest guest, int roomNumber, Scanner console) {

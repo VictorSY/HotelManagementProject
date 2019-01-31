@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Arrays;
 // The Room object to be associated with the Hotel
 public class Room {
@@ -12,7 +13,7 @@ public class Room {
     // the cost of reserving this room
     private double cost = 89.99;
     // the guest attached to this room
-    private Guest guest;
+    private ArrayList<Guest> guests;
     // whether the room allows for pets
     private boolean allowsPets = false;
     // whether the room isCleaned
@@ -147,13 +148,13 @@ public class Room {
     }
 
     // gets the Guest object attached to the Room
-    public Guest getGuest() {
-        return this.guest;
+    public ArrayList<Guest> getGuestList() {
+        return this.guests;
     }
 
     // assigns a Guest object to the Room
-    public void setGuest(Guest guest) {
-        this.guest = guest;
+    public void addGuest(Guest guest) {
+        this.guests.add(guest);
     }
 
     // gets whether a Room allows for pets
@@ -167,13 +168,16 @@ public class Room {
     }
 
     // detaches any Guest from the room
-    public void removeGuest() {
-        guest = null;
+    public void removeGuest(Guest guest) {
+        guests.remove(guest);
     }
 
     // determines if the Room is empty
-    public boolean isEmpty() {
-        return guest == null;
+    public boolean isEmpty(Guest newGuest) {
+        for(Guest guest : guests) {
+
+        }
+        return guests.isEmpty();
     }
 
     // Sets if room is clean
@@ -184,6 +188,11 @@ public class Room {
     // determines if the Room is cleaned
     public boolean isCleaned() {
         return isCleaned;
+    }
+
+    // Get whether room is reserved.
+    public boolean isReserved() {
+
     }
 
     // creates a String to resemble the Object

@@ -24,6 +24,8 @@ public class Guest {
   private int bedNum;
   private int roomSize = 0;
   private boolean hasPets;
+    private Date startDateReservation;
+    private Date endDateReservation;
 
   // a unique id that attaches name and cardNum to track customers
   private String uniqueId;
@@ -82,6 +84,7 @@ public class Guest {
     System.out.print("What is your full name?\n");
     this.name = console.nextLine().trim().toLowerCase().replaceAll("[^a-z]", " ");
     System.out.println();
+      setEmail(console);
     // Gives further instructions
     System.out.println("For the next few questions answer with a single integer.");
     // initializes fields for every question
@@ -200,6 +203,17 @@ public class Guest {
     return answer;
   }
 
+    // Sets email
+    public void setEmail(Scanner console) {
+        System.out.println("Please enter your email:");
+        String email = console.nextLine().trim();
+        while(!email.matches(EMAIL_REGEX)) {
+            System.out.println("Invalid email. Please try again.");
+            System.out.println("Enter your email:");
+            email = console.nextLine().trim();
+        }
+        this.email = email;
+    }
 
   // calculates the total cost of the Guest
   public double costOfGuests() {
@@ -232,14 +246,13 @@ public class Guest {
       return false;
     }
     this.room = room;
-    this.room.setGuest(this);
-    this.room.setCleaned(false);
+      this.room.addGuest(this);
     return true;
   }
 
   public void checkOut() {
     // Guest check out (use Room class)
-    room.removeGuest();
+      room.removeGuest(this);
     room = null;
   }
 
