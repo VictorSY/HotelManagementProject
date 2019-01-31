@@ -1,6 +1,11 @@
 import java.util.Scanner;
 
 public class Guest {
+    // CONASTANTS
+    private static final String EMAIL_REGEX = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+    private static final String NAME_REGEX = "^[A-Za-z]*(\\s)+[A-Z][a-z]*$";
+    private static final int MAX_PER_ROOM = 10;
+    
     // all discounts apply 0.8 to total coast
     private boolean isMembership;
     private boolean isMilitary;
@@ -12,139 +17,158 @@ public class Guest {
     private int numOfChildren; //*3.99
 
     private String name;
-    private long cardNum;
+    private String email;
+    private String cardNum;
     // reservationDays
 
-    private String bedType;
+    private int bedType;
     private int bedNum;
-    private int roomSize = 0;
+    private int roomSize;
 
     // added Room object to facilitate the integration of the class
     private Room room;
 
 
     public Guest() {
-        this.isMembership = false;
-        this.isMilitary = false;
-        this.isGovernment = false;
-        this.numOfSeniors = 0;
-        this.numOfAdults = 0;
-        this.numOfChildren = 0;
-        this.hasPets = false;
-
-        this.name = "";
-        this.cardNum = 0;
-
-        this.bedType = "";
-        this.bedNum = 0;
+        this(false, false, false, false, 0, 0, 0, "", "", "", 0, 0);
     }
 
-    public Guest(boolean isMembership, boolean isMilitary, boolean isGovernment,
-                 int numOfSeniors, int numOfAdults, int numOfChildren,
-                 boolean hasPets, String name, int cardNum, String bedType
-            , int bedNum) {
-        this.isMembership = isMembership;
-        this.isMilitary = isMilitary;
-        this.isGovernment = isGovernment;
-        this.numOfSeniors = numOfSeniors;
-        this.numOfAdults = numOfAdults;
-        this.numOfChildren = numOfChildren;
-        this.hasPets = hasPets;
-
-        this.name = name;
-        this.cardNum = cardNum;
-
-        this.bedType = bedType;
-        this.bedNum = bedNum;
-
+    public Guest(boolean isMembership, boolean isMilitary, boolean isGovernment, boolean hasPets,
+                 int numOfSeniors, int numOfAdults, int numOfChildren, String name, String email, 
+                 String cardNum, int bedType, int bedNum) {
+        setMembership(isMembership);
+        setMilitary(isMilitary);
+        setGovernment(isGovernment);
+        setPets(hasPets);
+        setSeniors(numOfSeniors);
+        setAdults(numOfAdults);
+        setChildren(numOfChildren);
+        setName(name);
+        setEmail(email);
+        setBedType(bedType);
+        setBedNum(bedNum);
     }
-
+    
     // Guest creation through scanner
-    public Guest(Scanner console) {
+    public Guest(Scanner sc) {
         System.out.print("What is your full name? ");
-        this.name = console.nextLine().trim();
+        setName(sc.nextLine().trim());
+        System.out.print("What is your email? ");
+        setEmail(sc.nextLine());
+        System.out.print("What is your Credit Card");
+        setCardNum(sc.nextLine());
         System.out.println();
 
         System.out.println("For the next few questions answer with a single integer.");
-        this.cardNum = getCreditCard(console);
-        this.numOfAdults = numberOfQuestions("How many adults? ", console);
-        this.numOfSeniors = numberOfQuestions("How many seniors? ", console);
-        this.numOfChildren = numberOfQuestions("How many children? ", console);
-        this.roomSize = numberOfQuestions("How big does your room need to be? (square feet) ", console);
-        this.bedNum = numberOfQuestions("How many beds? ", console);
-        int bedType = numberOfQuestions("What bed type? (king = 1, queen = 2, twin = 3, single = 4) ", console);
+        setSeniors(numberOfQuestions("How many seniors? ", sc));
+        setAdults(numberOfQuestions("How many adults? ", sc));
+        setChildren(numberOfQuestions("How many children? ", sc));
+        setBedNum(numberOfQuestions("How many beds? ", sc));
+        setBedType(numberOfQuestions("What bed type? (Twin = 1, Double = 2, Queen = 3, King = 4) ", sc));
+        
+        System.out.println("For the next few questions answer with Y or N.");
+        setMembership(yesOrNoQuestions("Do you have a hotel membership? ", sc));
+        setMilitary(yesOrNoQuestions("Are you a veteran? ", sc));
+        setGovernment(yesOrNoQuestions("Are you a government employee? ", sc));
+        setPets(yesOrNoQuestions("Do you have pets? ", sc));
+    }
+    
+    
+    /* Mutators */
+    public void setMembership(boolean isMembership){
+        this.isMembership = isMembership;
+    }
+    
+    public void setMilitary(boolean isMilitary){
+        this.isMilitary = isMilitary;
+    }
+    
+    public void setGovernment(boolean isGovernment){
+        this.isGovernment = isGovernment;
+    }
+    
+    public void setPets(boolean hasPets){
+        this.hasPets = hasPets;
+    }
+    
+    public void setSeniors(int numOfSeniors){
+        this.numOfSeniors = numOfSeniors;
+    }
+    
+    public void setAdults(int numOfAdults){
+        this.numOfAdults = numOfAdults;
+    }
+    
+    public void setChildren(int numOfChildren){
+        this.numOfChildren = numOfChildren;
+    }
+    
+    public void setName(String name){
+        if (name.isEmpty() || !name.matches(NAME_REGEX)){
+            throw new IllegalArgumentException("Name is not valid");
+        }
+        this.name = name;
+    }
+    
+    public void setEmail(String email){
+        if (email.isEmpty() || !email.matches(EMAIL_REGEX)){
+            throw new IllegalArgumentException("Email is not valid");
+        }
+        this.email = email;
+    }
+    
+    public void setCardNum(String cardNum){
+        if (cardNum.length() < 13 || cardNum.length() > 16){
+            throw new IllegalArgumentException("The card number is not valid");
+        }
+    }
+    
+    public void setBedType(int bedType){
         switch (bedType) {
             case 1:
-                this.bedType = "king";
+                this.bedType = 1;
                 break;
             case 2:
-                this.bedType = "queen";
+                this.bedType = 2;
                 break;
             case 3:
-                this.bedType = "twin";
+                this.bedType = 3;
                 break;
             case 4:
-                this.bedType = "single";
+                this.bedType = 4;
                 break;
             default:
-                this.bedType = "twin";
+                this.bedType = 1;
         }
-        System.out.println("For the next few questions answer with Y or N.");
-        this.isMembership = yesOrNoQuestions("Do you have a hotel membership? ", console);
-        this.isMilitary = yesOrNoQuestions("Are you a veteran? ", console);
-        this.isGovernment = yesOrNoQuestions("Are you a government employee? ", console);
-        this.hasPets = yesOrNoQuestions("Do you have pets? ", console);
-
     }
-
-    public static long getCreditCard(Scanner console) {
-        System.out.print("What is our card number? ");
-        long cardNumber;
-        String input;
-        while(true) {
-            try {
-                input = console.nextLine().replaceAll("[^0-9]", "");
-                if(input.length() < 16) {
-                    throw new NumberFormatException();
-                }
-                cardNumber = Long.parseLong(input);
-                break;
-            } catch(NumberFormatException e) {
-                System.out.println("Invalid number. Try again.");
-                System.out.print("What is our card number? ");
-            }
-        }
-        return cardNumber;
+    
+    public void setBedNum(int bedNum){
+        this.bedNum = bedNum;
     }
+    
 
-    public static boolean yesOrNoQuestions(String question, Scanner console) {
-        while(true) {
-            try {
-                System.out.print(question);
-                String answer = console.nextLine().toLowerCase();
-                if(answer.contains("n")) {
-                    return false;
-                } else if(answer.contains("y")) {
-                    return true;
-                } else {
-                    throw new IllegalArgumentException();
-                }
-            } catch(IllegalArgumentException e) {
-                System.out.println("Invalid input. Try again.");
-            }
+    public static boolean yesOrNoQuestions(String question, Scanner sc) {
+        System.out.print(question);
+        String answer = sc.nextLine().toLowerCase();
+        if (answer.contains("n")) {
+            return false;
+        } else if (answer.contains("y")) {
+            return true;
+        } else {
+            System.out.println("Invalid input. Please try again.");
+            return yesOrNoQuestions(question, sc);
         }
     }
 
-    public static int numberOfQuestions(String question, Scanner console) {
+    public static int numberOfQuestions(String question, Scanner sc) {
         int answer;
         System.out.print(question);
         while (true) {
             try {
-                answer = Integer.parseInt(console.nextLine());
+                answer = Integer.parseInt(sc.nextLine());
                 break;
             } catch (NumberFormatException e) {
                 System.out.println("Invalid input. Try again.");
-                System.out.print(question);
             }
         }
         return answer;
@@ -159,29 +183,14 @@ public class Guest {
         return total;
     }
 
-    public boolean checkIn(Room room) {
-        // Guest check in (use Room class)
-        if(this.room != null) {
-            System.out.println(name + " already has a room");
-            return false;
-        }
-        this.room = room;
-        this.room.setGuest(this);
-        return true;
-    }
-
-    public void checkOut() {
-        // Guest check out (use Room class)
-        room.removeGuest();
-        room = null;
-    }
 
     // added this method to make an easy connection between the two objects, much more is needed
-    public void createARoom() {
-      room = new Room(42, 330, bedType, bedNum, 89.99 + costOfGuests(), this, hasPets);
-    }
+    // public void createARoom() {
+      // room = new Room(42, 330, bedType, bedNum, 89.99 + costOfGuests(), this, hasPets);
+    // }
 
 
+    /* Accessors */
     public boolean isMembership() {
         return isMembership;
     }
@@ -214,11 +223,15 @@ public class Guest {
         return name;
     }
 
-    public long getCardNum() {
+    public String getEmail(){
+        return email;
+    }
+    
+    public String getCardNum() {
         return cardNum;
     }
 
-    public String getBedType() {
+    public int getBedType() {
         return bedType;
     }
 
@@ -238,25 +251,31 @@ public class Guest {
         return this;
     }
 
-
-    // the toString method
-    public String toString() {
-        return "Guest Info " +
-                "\n\tName: " + name +
-                "\n\tCard Number: " + cardNum +
-                "\n\tMembership: " + isMembership +
-                "\n\tMilitary Discount: " + isMilitary +
-                "\n\tGovernment Discount: " + isGovernment +
-                "\n\tHas Pets: " + hasPets +
-                "\n\tNumber of Seniors: " + numOfSeniors +
-                "\n\tNumber of Adults: " + numOfAdults +
-                "\n\tNumber of Children: " + numOfChildren +
-                "\n\tBed Type: " + bedType +
-                "\n\tBed Number: " + bedNum +
-                "\n\tRoom Size: " + roomSize +
-                "\n\tRoom: " + room;
-
+    public void assignRoom(Room room) {
+        if (room == null) {
+            this.room = room;
+        } else {
+            System.out.println(name + " already has a room");
+        }
     }
 
 
+    public String toString() {
+        if (this == null) { // This doesn't make sense. You can't call if it is null.
+            return null;
+        } else {
+            return "Guest: " +
+                   "\nName: " + name +
+                   "\nEmail: " + email +
+                   "\nCard Number: " + cardNum +
+                   "\nMembership: " + isMembership +
+                   "\nMilitary Discount: " + isMilitary +
+                   "\nGovernment Discount: " + isGovernment +
+                   "\nHas Pets: " + hasPets +
+                   "\nNumber of Seniors: " + numOfSeniors +
+                   "\nNumber of Adults: " + numOfAdults +
+                   "\nNumber of Children: " + numOfChildren;
+                   //"\nRoom: " + room;
+        }
+    }
 }
