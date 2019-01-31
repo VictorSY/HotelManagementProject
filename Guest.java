@@ -98,7 +98,7 @@ public class Guest {
     
   }
   
-  // Asks a Gues what bed they would like
+  // Asks a Guest what bed they would like
   private void askBedType(Scanner console) {
     int bedType;
     while(this.bedType == null) {
@@ -219,6 +219,11 @@ public class Guest {
 
   public void checkOut() {
     // Guest check out (use Room class)
+    room.removeGuest();
+    room = null;
+  }
+
+  public void cancelReservation() {
     room.removeGuest();
     room = null;
   }

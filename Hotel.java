@@ -130,8 +130,7 @@ public class Hotel {
         return false;
       }
       guestList.add(guest);
-      System.out.println("You have reserved room " + room + ". Thank you for choosing " + hotelName + ".");
-      guest.checkIn(room);
+      System.out.println("You have reserved room " + room + ".\n\nThank you for choosing " + hotelName + ".");
       System.out.println(receipt(guest));
       return true;
     } else {
@@ -147,7 +146,7 @@ public class Hotel {
             receipt = receipt.substring(0, dollarSignLocation) + "-" + receipt.substring(dollarSignLocation); // adds negative sign to signify refund
             System.out.println(receipt);
             guestList.remove(guest);
-            guest.checkOut();
+            guest.cancelReservation();
         } else {
             System.out.println("Cancelled cancellation process.");
         }

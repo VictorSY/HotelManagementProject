@@ -22,6 +22,7 @@ public class Main {
         // loops through the command-line prompts
         hotels.get(0).createGuest();
         while(true) {
+            //if(Guest.yesOrNoQuestions(""))
             if(Guest.yesOrNoQuestions("Would you like to cancel a reservation? " +
                     "If so type \"yes\" if not type \"no\"\n", new Scanner(System.in))) {
                 System.out.println("Enter your full name (exactly as you made your reservation as): ");
@@ -29,7 +30,7 @@ public class Main {
                 try {
                     Guest guest = hotels.get(0).findGuestInList(name);
                     hotels.get(0).cancelReservation(guest);
-                    System.out.println("Successfully checked out.");
+                    System.out.println("Successfully cancelled.");
                 } catch(IllegalArgumentException e) {
                     if(Guest.yesOrNoQuestions("Guest not found. Try again?", console)) {
                         continue;
