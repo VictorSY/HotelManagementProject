@@ -46,7 +46,7 @@ public class Hotel {
         // grabs the data from the file
         String textData = hotelData.nextLine();
         // stores the data for the room
-        if (room < 10) {
+          if(room + 1 < 10) {
           textData += " room number " + floor + "0" + (room + 1);
         } else {
           textData += " room number " + floor + (room + 1);
@@ -146,6 +146,7 @@ public class Hotel {
             receipt = receipt.substring(0, dollarSignLocation) + "-" + receipt.substring(dollarSignLocation); // adds negative sign to signify refund
             System.out.println(receipt);
             guestList.remove(guest);
+            idList.remove(guest.getUniqueId());
             guest.cancelReservation();
         } else {
             System.out.println("Cancelled cancellation process.");
