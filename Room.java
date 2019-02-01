@@ -1,23 +1,27 @@
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
+
 // The Room object to be associated with the Hotel
 public class Room {
     // the number assigned to a room
     private int roomNum;
     // the square footage of the room, the size
-    private int roomSize = 300;
+    private int roomSize;
     // the type of bed used in the room
-    private String bedSize = "twin";
+    private String bedSize;
     // the number of beds in the room
-    private int bedNum = 1;
+    private int bedNum;
     // the cost of reserving this room
-    private double cost = 89.99;
+    private double cost;
     // the guest attached to this room
-    private ArrayList<Guest> guests;
+    private Guest guest;
     // whether the room allows for pets
-    private boolean allowsPets = false;
+    private boolean allowsPets;
     // whether the room isCleaned
     private boolean isCleaned = true;
+    // all the dates which this room reserved
+    private ArrayList<Date> resDates;
 
     private boolean isReserved;
 
@@ -29,7 +33,7 @@ public class Room {
         this.bedNum = 1;
         this.cost = 89.99;
         // changed the Guest value to default so the toString method would work properly
-        this.guest = new Guest();
+        this.guest = guest; //now guest variable, so a guest is added to the guests arrayList
         this.allowsPets = false;
     }
 
@@ -146,17 +150,7 @@ public class Room {
     public void setCost(double cost) {
         this.cost = cost;
     }
-
-    // gets the Guest object attached to the Room
-    public ArrayList<Guest> getGuestList() {
-        return this.guests;
-    }
-
-    // assigns a Guest object to the Room
-    public void addGuest(Guest guest) {
-        this.guests.add(guest);
-    }
-
+    
     // gets whether a Room allows for pets
     public boolean getAllowPets() {
         return this.allowsPets;
@@ -167,17 +161,13 @@ public class Room {
         this.allowsPets = allowPets;
     }
 
-    // detaches any Guest from the room
-    public void removeGuest(Guest guest) {
-        guests.remove(guest);
-    }
 
     // determines if the Room is empty
-    public boolean isEmpty(Guest newGuest) {
-        for(Guest guest : guests) {
-
+    public boolean isEmpty() {
+        if (guest != null){
+            return false;
         }
-        return guests.isEmpty();
+        return true;
     }
 
     // Sets if room is clean
@@ -190,9 +180,50 @@ public class Room {
         return isCleaned;
     }
 
-    // Get whether room is reserved.
-    public boolean isReserved() {
+    public boolean setResDate(String date1, String date2){
+        String d1 = date1.replace("/", "");
+        String d2 = date2.replace("/", "");
 
+        int month1 = Integer.parseInt(d1.substring(0, 2)) - 1; //Date's months range goes from 0 to 11.
+        int day1 = Integer.parseInt(d1.substring(2, 4));
+        int year1 = Integer.parseInt(d1.substring(4, 6)) + 100; // Date sets year like this: YY + 1900. If 0 is passed then 1900 is set.
+
+        int month2 = Integer.parseInt(d2.substring(0, 2)) - 1;
+        int day2 = Integer.parseInt(d2.substring(2, 4));
+        int year2 = Integer.parseInt(d2.substring(4, 6)) + 100;
+
+        Date startDate = new Date(year1, month1, day1);
+        Date endDate = new Date(year2, month2, day2);
+        
+        if (!isReserved(startDate, endDate)){ //if room is not reserved, reservation dates are added to the room resDates and guest
+            resDates.add(startDate);
+            resDates.add(endDate);
+        
+            guest.setResDates(startDate, endDate);
+            return true;
+        }else{
+            System.out.println("Sorry,this room is booked for the following dates: " + displayDates());
+            return false;
+        }
+    }
+    
+    // Get whether room is reserved.
+    public boolean isReserved(Date from, Date to) {
+        for (int i = 0; i < resDates.size() - 1; i+=2){
+            if((from.compareTo(resDates.get(i)) >= 0 && from.compareTo(resDates.get(i+1)) <= 0) || (to.compareTo(resDates.get(i)) >= 0 && to.compareTo(resDates.get(i+1)) <= 0)){
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public String displayDates(){
+        String dates = "";
+        for(int i = 0; i < resDates.size() - 1; i+=2){
+            dates += "From: " + resDates.get(i).getMonth() + "/ " + resDates.get(i).getDate() + "/ " + (resDates.get(i).getYear() + 1900) + "   ";
+            dates += "To: " + resDates.get(i+1).getMonth() + "/ " + resDates.get(i+1).getDate() + "/ " + (resDates.get(i+1).getYear() + 1900) + "\n";
+        }
+        return dates;
     }
 
     // creates a String to resemble the Object
