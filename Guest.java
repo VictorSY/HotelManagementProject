@@ -71,7 +71,6 @@ public class Guest {
        
     // Welcomes a guest to the Hotel and provides info to cancel if already booked. 
     System.out.println("Welcome to our Hotel!\n\n");
-    System.out.println("If you already have a reservation and would like to cancel please re-enter your information.");
     // Begins the information gathering process
     System.out.print("What is your full name?\n");
     this.name = console.nextLine().trim().toLowerCase().replaceAll("[^a-z]", " ");
