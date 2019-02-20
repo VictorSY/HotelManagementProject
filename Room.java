@@ -1,28 +1,28 @@
 import java.util.Arrays;
-// The Room object to be associated with the Hotel
+
 public class Room {
     // the number assigned to a room
     private int roomNum;
     // the square footage of the room, the size
-    private int roomSize = 300;
+    private int roomSize = 200;
     // the type of bed used in the room
-    private String bedSize = "twin";
+    private String bedSize;
     // the number of beds in the room
-    private int bedNum = 1;
+    private int bedNum;
     // the cost of reserving this room
-    private double cost = 89.99;
+    private double cost;
     // the guest attached to this room
     private Guest guest;
     // whether the room allows for pets
-    private boolean allowsPets = false;
+    private boolean allowsPets;
     // whether the room isCleaned
     private boolean isCleaned = true;
 
     // the default constructor for the Room object
     public Room() {
         this.roomNum = 0;
-        this.roomSize = 300;
-        this.bedSize = "twin";
+        this.roomSize = 330;
+        this.bedSize = "Twin";
         this.bedNum = 1;
         this.cost = 89.99;
         // changed the Guest value to default so the toString method would work properly
@@ -41,7 +41,7 @@ public class Room {
         this.allowsPets = allowPets;
     }
 
-
+    // Temporary room creation
     public Room(String roomStringData) {
         // Removes all non-letter/non-digit characters
         roomStringData = roomStringData.toLowerCase().replaceAll("[^a-z0-9. \\s+]", " ");
@@ -174,17 +174,14 @@ public class Room {
         return guest == null;
     }
 
-    // Sets if room is clean
-    public void setCleaned(boolean isCleaned) {
-        this.isCleaned = isCleaned;
-    }
-
     // determines if the Room is cleaned
     public boolean isCleaned() {
         return isCleaned;
     }
 
-    // creates a String to resemble the Object
+    // compares this room with another room
+    public int compareTo(Room room) { return 0; }
+
     public String toString() {
         return "Room Number: " + roomNum +
                 "\n\tRoom Cost: " + cost +
