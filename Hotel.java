@@ -12,11 +12,14 @@ public class Hotel {
   Scanner console;
   
   // stores the guests in the hotel
-  private ArrayList<Guest> guestList = new ArrayList<>();
+  //private ArrayList<Guest> guestList = new ArrayList<>();
   // stores the floors of the hotel, with and ArrayList of an ArrayList of Rooms
   private ArrayList<ArrayList<Room>> floors = new ArrayList<>();
   // stores the unique id's of guests as a list, used for cancelling a reservation
   private ArrayList<String> idList = new ArrayList<>();
+
+
+  private CustomLinkedList<Guest> guestList = new CustomLinkedList();
   
   // creates the Hotel object using a .txt file
   public Hotel(String hotelInfoText, Scanner console) throws FileNotFoundException {

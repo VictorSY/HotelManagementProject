@@ -1,9 +1,9 @@
-public class BinarySearchNode<E> {
-    public E data;
-    public BinarySearchNode<E> left;
-    public BinarySearchNode<E> right;
+public class BinarySearchNode<Comparable> {
+    public Comparable data;
+    public BinarySearchNode<Comparable> left;
+    public BinarySearchNode<Comparable> right;
 
-    public BinarySearchNode(E data) {
-
+    public BinarySearchNode(Comparable data) {
+        this.data = data;
     }
 }

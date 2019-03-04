@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class Guest {
+public class Guest implements Comparable {
     // all discounts apply 0.8 to total coast
     private boolean isMembership;
     private boolean isMilitary;
@@ -176,14 +176,38 @@ public class Guest {
         room = null;
     }
 
-    // added this method to make an easy connection between the two objects, much more is needed
-    public void createARoom() {
-      room = new Room(42, 330, bedType, bedNum, 89.99 + costOfGuests(), this, hasPets);
-    }
-
 
     // compares this guest to another guest
-    public int compareTo(Guest guest) { return 0; }
+    // Guest compare order
+    //      String name;
+    //      long cardNum;
+    //      boolean isMembership;
+    //      boolean isMilitary;
+    //      boolean isGovernment;
+    //      boolean hasPets;
+    //      int numOfSeniors; //*4.99
+    //      int numOfAdults; //*9.99
+    //      int numOfChildren; //*3.99
+    //      String bedType;
+    //      int bedNum;
+    //      int roomSize = 0;
+    //      Room room;
+    public int compareTo(Guest guest) {
+        int result = this.name.compareTo(guest.name);
+        if(result == 0) {
+            if(this.cardNum > guest.cardNum) {
+                result = 1;
+            } else if(this.cardNum < guest.cardNum) {
+                result = -1;
+            } else {
+                result = 0;
+            }
+        }
+        if(result == 0) {
+
+        }
+        return result;
+    }
 
 
     public boolean isMembership() {
@@ -263,4 +287,14 @@ public class Guest {
     }
 
 
+    @Override
+    public int compareTo(Object o) {
+        try {
+            Guest other = (Guest) o;
+            return compareTo(other);
+        } catch(ClassCastException e) {
+            System.out.println("Guest compared to " + o.getClass().getName());
+            return 1;
+        }
+    }
 }

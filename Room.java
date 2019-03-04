@@ -1,12 +1,12 @@
 import java.util.Arrays;
 
-public class Room {
+public class Room implements Comparable {
     // the number assigned to a room
     private int roomNum;
     // the square footage of the room, the size
     private int roomSize = 200;
     // the type of bed used in the room
-    private String bedSize;
+    private int bedSize; // 0 single, 1 twin, 2 queen, 3 king
     // the number of beds in the room
     private int bedNum;
     // the cost of reserving this room
@@ -22,7 +22,7 @@ public class Room {
     public Room() {
         this.roomNum = 0;
         this.roomSize = 330;
-        this.bedSize = "Twin";
+        this.bedSize = 0;
         this.bedNum = 1;
         this.cost = 89.99;
         // changed the Guest value to default so the toString method would work properly
@@ -34,14 +34,14 @@ public class Room {
     public Room(int roomNum, int roomSize, String bedSize, int bedNum, double cost, Guest guest, boolean allowPets) {
         this.roomNum = roomNum;
         this.roomSize = roomSize;
-        this.bedSize = bedSize;
+        setBedSize(bedSize);
         this.bedNum = bedNum;
         this.cost = cost;
         this.guest = guest;
         this.allowsPets = allowPets;
     }
 
-    // Temporary room creation
+    // room creation
     public Room(String roomStringData) {
         // Removes all non-letter/non-digit characters
         roomStringData = roomStringData.toLowerCase().replaceAll("[^a-z0-9. \\s+]", " ");
@@ -111,13 +111,23 @@ public class Room {
     }
 
     // gets the type of bed for the Room
-    public String getBedSize() {
-        return this.bedSize;
+    public int getBedSize() {
+        return bedSize;
     }
 
     // sets type of bed for the Room
     public void setBedSize(String bedSize) {
-        this.bedSize = bedSize;
+        switch(bedSize) {
+            case "single":
+                this.bedSize = 0;
+            case "twin":
+                this.bedSize = 1;
+            case "queen":
+                this.bedSize = 2;
+            case "king":
+                this.bedSize = 3;
+        }
+
     }
 
     // gets the number of beds for the Room
@@ -180,7 +190,31 @@ public class Room {
     }
 
     // compares this room with another room
-    public int compareTo(Room room) { return 0; }
+    // int roomSize;
+    // String bedSize;
+    // int bedNum;
+    // allowsPets;
+    public int compareTo(Room room) {
+        if(this.roomSize < room.roomSize) {
+            return -1;
+        }
+        if(this.roomSize > room.roomSize) {
+            return 1;
+        }
+        if(this.bedNum < room.bedNum) {
+            return -1;
+        }
+        if(this.bedNum > room.bedNum) {
+            return 1;
+        }
+        if(bedSize < room.bedSize) {
+            return -1;
+        }
+        if(bedSize > room.bedSize) {
+            return -1;
+        }
+        return 0;
+    }
 
     public String toString() {
         return "Room Number: " + roomNum +
@@ -190,5 +224,15 @@ public class Room {
                 "\n\tBed Size: " + bedSize +
                 "\n\tPet allowed: " + allowsPets +
                 "\n\tCleaned: " + isCleaned;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        try {
+            Room other = (Room) o;
+            return compareTo(other);
+        } catch(ClassCastException e) {
+            return -1;
+        }
     }
 }
