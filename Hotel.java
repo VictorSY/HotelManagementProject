@@ -12,14 +12,12 @@ public class Hotel {
   Scanner console;
   
   // stores the guests in the hotel
-  //private ArrayList<Guest> guestList = new ArrayList<>();
+  private ArrayList<Guest> guestList = new ArrayList<>();
   // stores the floors of the hotel, with and ArrayList of an ArrayList of Rooms
   private ArrayList<ArrayList<Room>> floors = new ArrayList<>();
   // stores the unique id's of guests as a list, used for cancelling a reservation
   private ArrayList<String> idList = new ArrayList<>();
 
-
-  private CustomLinkedList<Guest> guestList = new CustomLinkedList();
   
   // creates the Hotel object using a .txt file
   public Hotel(String hotelInfoText, Scanner console) throws FileNotFoundException {
@@ -65,30 +63,7 @@ public class Hotel {
   
   // Uses scanner to prompt for guest info
   public void createGuest() {
-    // creates a Guest using the console scanner as the parameter
-    Guest guest = new Guest(console);
-    // makes sure the Guest hasn't made a reservation
-    if(!idList.contains(guest.getUniqueId())) {
-      // finds a room for a guest and adds them to the guesList if they book the room
-      if (findRoomForGuest(guest) == 0) {
-        System.out.println("Sorry, no room found.");
-      } else {
-        guestList.add(guest);
-        idList.add(guest.getUniqueId());
-      }
-      // if a Guest has made a reservation
-    } else {
-      // asks the Guest if they would like to cancel the Reservation
-        if(Guest.yesOrNoQuestions("Seems like you have a reservation. Would you like to cancel? (Y or N)\n"
-                                  , console)) {
-        // removes Guest from the guestList if they wanted to cancel the reservation
-        guestList.remove(guest);
-        // removes their Unique ID from the database
-        idList.remove(guest.getUniqueId());
-        // gives the Guest a notificion that their cancellation was a success
-        System.out.println("Success! Thank you for your stay!");
-      }
-    }
+
   }
   
   // Calculates the cost of room and cost of total guests
@@ -149,8 +124,8 @@ public class Hotel {
             receipt = receipt.substring(0, dollarSignLocation) + "-" + receipt.substring(dollarSignLocation); // adds negative sign to signify refund
             System.out.println(receipt);
             guestList.remove(guest);
-            idList.remove(guest.getUniqueId());
-            guest.cancelReservation();
+          //idList.remove(guest.getUniqueId());
+          //guest.cancelReservation();
         } else {
             System.out.println("Cancelled cancellation process.");
         }

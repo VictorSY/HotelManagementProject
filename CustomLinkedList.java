@@ -1,10 +1,10 @@
-public class CustomLinkedList<E> {
-    private LinkedNode<Comparable<E>> front;
+public class CustomLinkedList<T extends Comparable> {
+    private LinkedNode<T> front;
 
     public CustomLinkedList() {
     }
 
-    public void add(E data) {
+    public void add(T data) {
         if(front == null) {
             front = new LinkedNode(data);
         } else {
@@ -16,13 +16,13 @@ public class CustomLinkedList<E> {
         }
     }
 
-    public void remove(E data) {
+    public void remove(T data) {
         if(front == null) {
             return;
         } else if(front.data.compareTo(data) == 0) {
             front = front.nextNode;
         } else {
-            LinkedNode<Comparable<E>> currentNode = front;
+            LinkedNode<T> currentNode = front;
 
             while(currentNode.nextNode != null && currentNode.nextNode.data.compareTo(data) != 0) {
                 currentNode = currentNode.nextNode;

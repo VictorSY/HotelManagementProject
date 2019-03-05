@@ -2,16 +2,14 @@ public class BinarySearchTree<T> {
     private BinarySearchNode<Comparable<T>> root;
 
     public void add(T data) {
-        try {
-            Comparable<T> temp = (Comparable<T>) data;
-        } catch(ClassCastException e) {
-            System.out.println(e);
-            return;
+        if(data instanceof Comparable) {
+            if(root == null) {
+                root = new BinarySearchNode<>((Comparable<T>) data);
+            }
+            add(data, root);
+        } else {
+            System.out.println("Object not comparable.");
         }
-        if(root == null) {
-            root = new BinarySearchNode<>((Comparable<T>) data);
-        }
-        add(data, root);
     }
 
     private void add(T data, BinarySearchNode<Comparable<T>> node) {

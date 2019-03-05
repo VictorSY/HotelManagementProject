@@ -3,12 +3,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 /*
- * The Main class to run the Hotel Project
- * @authors
- * Ray Van Hollebeke
- * Victor Shan
- * Huiseon Choi
- * Fabrizio Ferreyra
+ *
  */
 public class Main {
 

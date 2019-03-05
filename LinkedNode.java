@@ -1,16 +1,25 @@
-public class LinkedNode<Comparable> {
-    public Comparable data;
-    public LinkedNode<Comparable> nextNode;
+public class LinkedNode<T extends Comparable> implements Comparable {
+    public T data;
+    public LinkedNode<T> nextNode;
 
     public LinkedNode() {
     }
 
-    public LinkedNode(Comparable data) {
+    public LinkedNode(T data) {
         this.data = data;
     }
 
-    public LinkedNode(Comparable data, LinkedNode nextNode) {
+    public LinkedNode(T data, LinkedNode<T> nextNode) {
         this.data = data;
         this.nextNode = nextNode;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        if(o instanceof Comparable) {
+            return data.compareTo(o);
+        } else {
+            throw new IllegalArgumentException("Invalid compare type.");
+        }
     }
 }

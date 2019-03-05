@@ -181,9 +181,9 @@ public class Guest implements Comparable {
     // Guest compare order
     //      String name;
     //      long cardNum;
-    //      boolean isMembership;
     //      boolean isMilitary;
     //      boolean isGovernment;
+    //      boolean isMembership;
     //      boolean hasPets;
     //      int numOfSeniors; //*4.99
     //      int numOfAdults; //*9.99
@@ -192,21 +192,33 @@ public class Guest implements Comparable {
     //      int bedNum;
     //      int roomSize = 0;
     //      Room room;
-    public int compareTo(Guest guest) {
-        int result = this.name.compareTo(guest.name);
-        if(result == 0) {
-            if(this.cardNum > guest.cardNum) {
-                result = 1;
-            } else if(this.cardNum < guest.cardNum) {
-                result = -1;
+    public int compareTo(Guest other) {
+        if(this.name.compareTo(other.getName()) != 0) {
+            return this.name.compareTo(other.getName());
+        } else if(this.cardNum < other.getCardNum()) {
+            return -1;
+        } else if(this.cardNum > other.getCardNum()) {
+            return 1;
+        } else if(this.isMilitary != other.isMilitary()) {
+            if(this.isMilitary) {
+                return -1;
             } else {
-                result = 0;
+                return 1;
+            }
+        } else if(this.isGovernment != other.isGovernment()) {
+            if(this.isGovernment) {
+                return -1;
+            } else {
+                return 1;
+            }
+        } else if(this.isMembership != other.isMembership()) {
+            if(this.isMembership) {
+                return -1;
+            } else {
+                return 1;
             }
         }
-        if(result == 0) {
-
-        }
-        return result;
+        return 0;
     }
 
 
@@ -262,10 +274,6 @@ public class Guest implements Comparable {
         return room;
     }
 
-    public Guest getGuest(){
-        return this;
-    }
-
 
     // the toString method
     public String toString() {
@@ -289,12 +297,10 @@ public class Guest implements Comparable {
 
     @Override
     public int compareTo(Object o) {
-        try {
-            Guest other = (Guest) o;
-            return compareTo(other);
-        } catch(ClassCastException e) {
-            System.out.println("Guest compared to " + o.getClass().getName());
-            return 1;
+        if(o instanceof Guest) {
+            return compareTo((Guest) o);
+        } else {
+            throw new IllegalArgumentException("Guest compared with invalid type.");
         }
     }
 }
