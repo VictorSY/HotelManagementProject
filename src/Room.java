@@ -4,15 +4,15 @@ public class Room implements Comparable {
     // the number assigned to a room
     private int roomNum;
     // the square footage of the room, the size
-    private int roomSize = 200;
+    private int roomSize;
     // the type of bed used in the room
-    private int bedSize; // 0 single, 1 twin, 2 queen, 3 king
+    private String bedSize;
     // the number of beds in the room
     private int bedNum;
     // the cost of reserving this room
     private double cost;
     // the guest attached to this room
-    private Guest guest;
+    private CustomLinkedList<Guest> reservations;
     // whether the room allows for pets
     private boolean allowsPets;
     // whether the room isCleaned
@@ -22,22 +22,23 @@ public class Room implements Comparable {
     public Room() {
         this.roomNum = 0;
         this.roomSize = 330;
-        this.bedSize = 0;
+        this.bedSize = "single";
         this.bedNum = 1;
         this.cost = 89.99;
         // changed the Guest value to default so the toString method would work properly
-        this.guest = new Guest();
+        reservations = new CustomLinkedList<>();
         this.allowsPets = false;
     }
 
     // the constructor that will typically be used for Rooms
     public Room(int roomNum, int roomSize, String bedSize, int bedNum, double cost, Guest guest, boolean allowPets) {
+        reservations = new CustomLinkedList<>();
         this.roomNum = roomNum;
         this.roomSize = roomSize;
         setBedSize(bedSize);
         this.bedNum = bedNum;
         this.cost = cost;
-        this.guest = guest;
+        reservations.add(guest);
         this.allowsPets = allowPets;
     }
 
@@ -90,6 +91,14 @@ public class Room implements Comparable {
         }
     }
 
+    // ideal room creation
+    public Room(int roomSize, String bedSize, int bedNum, boolean allowPets) {
+        this.roomSize = roomSize;
+        this.bedSize = bedSize;
+        this.bedNum = bedNum;
+        this.allowsPets = allowPets;
+    }
+
     // sets the number for the Room
     public void setRoomNum(int roomNum) {
         this.roomNum = roomNum;
@@ -111,23 +120,13 @@ public class Room implements Comparable {
     }
 
     // gets the type of bed for the Room
-    public int getBedSize() {
+    public String getBedSize() {
         return bedSize;
     }
 
     // sets type of bed for the Room
     public void setBedSize(String bedSize) {
-        switch(bedSize) {
-            case "single":
-                this.bedSize = 0;
-            case "twin":
-                this.bedSize = 1;
-            case "queen":
-                this.bedSize = 2;
-            case "king":
-                this.bedSize = 3;
-        }
-
+        this.bedSize = bedSize;
     }
 
     // gets the number of beds for the Room
@@ -156,12 +155,12 @@ public class Room implements Comparable {
 
     // gets the Guest object attached to the Room
     public Guest getGuest() {
-        return this.guest;
+        return this.reservations.findNode(0).data;
     }
 
-    // assigns a Guest object to the Room
-    public void setGuest(Guest guest) {
-        this.guest = guest;
+    // adds a guest
+    public void addGuest(Guest guest) {
+        reservations.add(guest);
     }
 
     // gets whether a Room allows for pets
@@ -176,12 +175,16 @@ public class Room implements Comparable {
 
     // detaches any Guest from the room
     public void removeGuest() {
-        guest = null;
+        this.reservations.remove(getGuest());
+    }
+
+    public void removeGuest(Guest guest) {
+        this.reservations.remove(guest);
     }
 
     // determines if the Room is empty
     public boolean isEmpty() {
-        return guest == null;
+        return this.reservations.findNode(0) == null;
     }
 
     // determines if the Room is cleaned
@@ -194,26 +197,26 @@ public class Room implements Comparable {
     // String bedSize;
     // int bedNum;
     // allowsPets;
-    public int compareTo(Room room) {
-        if(this.roomSize < room.roomSize) {
+    public int compareTo(Room other) {
+        if(this.roomSize < other.getRoomSize()) {
             return -1;
         }
-        if(this.roomSize > room.roomSize) {
+        if(this.roomSize > other.getRoomSize()) {
             return 1;
         }
-        if(this.bedNum < room.bedNum) {
+        if(allowsPets != other.getAllowPets()) {
+            if(allowsPets) {
+                return 1;
+            }
             return -1;
         }
-        if(this.bedNum > room.bedNum) {
+        if(this.bedNum < other.getBedNum()) {
+            return -1;
+        }
+        if(this.bedNum > other.getBedNum()) {
             return 1;
         }
-        if(bedSize < room.bedSize) {
-            return -1;
-        }
-        if(bedSize > room.bedSize) {
-            return -1;
-        }
-        return 0;
+        return bedSize.compareTo(other.getBedSize());
     }
 
     public String toString() {

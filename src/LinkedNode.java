@@ -22,4 +22,8 @@ public class LinkedNode<T extends Comparable> implements Comparable {
             throw new IllegalArgumentException("Invalid compare type.");
         }
     }
+
+    public String toString() {
+        return data.toString();
+    }
 }

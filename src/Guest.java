@@ -166,8 +166,17 @@ public class Guest implements Comparable {
             return false;
         }
         this.room = room;
-        this.room.setGuest(this);
+        this.room.addGuest(this);
         return true;
+    }
+
+    public void makeReservation(Room room) {
+        this.room = room;
+        this.room.addGuest(this);
+    }
+
+    public void deleteReservation() {
+        room.removeGuest(this);
     }
 
     public void checkOut() {
@@ -184,14 +193,6 @@ public class Guest implements Comparable {
     //      boolean isMilitary;
     //      boolean isGovernment;
     //      boolean isMembership;
-    //      boolean hasPets;
-    //      int numOfSeniors; //*4.99
-    //      int numOfAdults; //*9.99
-    //      int numOfChildren; //*3.99
-    //      String bedType;
-    //      int bedNum;
-    //      int roomSize = 0;
-    //      Room room;
     public int compareTo(Guest other) {
         if(this.name.compareTo(other.getName()) != 0) {
             return this.name.compareTo(other.getName());
@@ -276,7 +277,7 @@ public class Guest implements Comparable {
 
 
     // the toString method
-    public String toString() {
+    public String toFormattedString() {
         return "Guest Info " +
                 "\n\tName: " + name +
                 "\n\tCard Number: " + cardNum +
@@ -292,6 +293,11 @@ public class Guest implements Comparable {
                 "\n\tRoom Size: " + roomSize +
                 "\n\tRoom: " + room;
 
+    }
+
+
+    public String toString() {
+        return name + " " + cardNum;
     }
 
 
