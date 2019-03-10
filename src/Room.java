@@ -198,6 +198,7 @@ public class Room implements Comparable {
     // int bedNum;
     // allowsPets;
     public int compareTo(Room other) {
+        System.out.printf("Comparing %d and %d.\n", this.roomNum, other.getRoomNumber());
         if(this.roomSize < other.getRoomSize()) {
             return -1;
         }
@@ -231,11 +232,11 @@ public class Room implements Comparable {
 
     @Override
     public int compareTo(Object o) {
-        try {
-            Room other = (Room) o;
-            return compareTo(other);
-        } catch(ClassCastException e) {
-            return -1;
+        if(o instanceof Room) {
+            System.out.println("Returned something in Room");
+            return compareTo((Room) o);
+        } else {
+            throw new IllegalArgumentException("Invalid Room comparison");
         }
     }
 }

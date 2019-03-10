@@ -1,3 +1,4 @@
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -10,7 +11,10 @@ public class Hotel {
     // A field to store the name of a Hotel
     private String hotelName;
     // The scanner to be used for command line prompts
-    Scanner console;
+    private Scanner console;
+
+    // Keeps a log of everything that happens
+    private BufferedWriter log;
 
     // stores the guests in the hotel
     private ArrayList<Guest> guestList = new ArrayList<>();
@@ -18,12 +22,14 @@ public class Hotel {
     private ArrayList<ArrayList<Room>> floors = new ArrayList<>();
 
     public BinarySearchTree<Room> rooms = new BinarySearchTree();
-    private HashMap<Room, LinkedNode<Guest>> reservations = new HashMap<>();
+    private HashMap<Room, CustomLinkedList<Guest>> reservations = new HashMap<>();
     private AlphabetIndex<Guest> guestIndex = new AlphabetIndex<>();
 
 
     // creates the Hotel object using a .txt file
-    public Hotel(String hotelInfoText, Scanner console) throws FileNotFoundException {
+    public Hotel(String hotelInfoText, Scanner console, BufferedWriter log) throws FileNotFoundException {
+        // stores a log of processes
+        this.log = log;
         // Console input scanner assigned to object
         this.console = console;
         Scanner hotelData = new Scanner(new File(hotelInfoText));
@@ -107,14 +113,18 @@ public class Hotel {
     public int findRoomForGuest(Guest guest) {
         System.out.println("Finding room for guest...");
         Room idealRoom = new Room(guest.getRoomSize(), guest.getBedType(), guest.getBedNum(), guest.hasPets());
-        Room roomFound = (Room) rooms.binarySearch(idealRoom);
-        if(roomFound == null) {
-            System.out.println("Sorry, no room found.");
-            return -1;
-        } else {
-            makeReservation(guest, roomFound, console);
-            return roomFound.getRoomNumber();
+        CustomLinkedList<Room> possibleRooms = rooms.binarySearch(idealRoom);
+        LinkedNode<Room> roomNodeFound = possibleRooms.findNode(0);
+        while(roomNodeFound != null) {
+            Room roomFound = roomNodeFound.data;
+
+            if(makeReservation(guest, roomFound, console)) {
+                return roomFound.getRoomNumber();
+            }
+
+            roomNodeFound = roomNodeFound.nextNode;
         }
+        return -1;
     }
 
     // Confirms that the user wants to make a reservation
@@ -128,7 +138,7 @@ public class Hotel {
                 return false;
             }
             guestList.add(guest);
-
+            reservations.put(room, new CustomLinkedList<>(guest));
             System.out.println("You have reserved room " + room + ".\n\n" +
                     "Thank you for choosing " + hotelName + ".");
             System.out.println(receipt(guest));

@@ -75,16 +75,16 @@ public class Guest implements Comparable {
         int bedType = numberOfQuestions("What bed type? (king = 1, queen = 2, twin = 3, single = 4) ", console);
         switch (bedType) {
             case 1:
-                this.bedType = "king";
+                this.bedType = "single";
                 break;
             case 2:
-                this.bedType = "queen";
-                break;
-            case 3:
                 this.bedType = "twin";
                 break;
+            case 3:
+                this.bedType = "queen";
+                break;
             case 4:
-                this.bedType = "single";
+                this.bedType = "king";
                 break;
             default:
                 this.bedType = "twin";
@@ -304,6 +304,7 @@ public class Guest implements Comparable {
     @Override
     public int compareTo(Object o) {
         if(o instanceof Guest) {
+            System.out.println("Returning something in Guest.");
             return compareTo((Guest) o);
         } else {
             throw new IllegalArgumentException("Guest compared with invalid type.");

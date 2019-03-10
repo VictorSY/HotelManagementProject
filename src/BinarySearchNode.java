@@ -8,6 +8,7 @@ public class BinarySearchNode<T extends Comparable> implements Comparable {
     }
 
     public int compareTo(Object o) {
+        System.out.println("Compared two binary tree nodes...");
         if(o instanceof BinarySearchNode) {
             return data.compareTo(((BinarySearchNode) o).data);
         } else if(o instanceof Comparable) {

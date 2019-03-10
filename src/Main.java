@@ -1,4 +1,6 @@
-import java.io.FileNotFoundException;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -7,13 +9,15 @@ import java.util.Scanner;
  */
 public class Main {
 
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args) throws IOException {
+        // Create a log of what happens
+        BufferedWriter log = new BufferedWriter(new FileWriter("Logs/" + java.time.LocalDate.now().toString() + ".txt"));
         // Scanner for asking questions
         Scanner console = new Scanner(System.in);
         // allows for the creation of hotels
         ArrayList<Hotel> hotels = new ArrayList<Hotel>();
         // adds the hotel for the .txt sample file
-        hotels.add(new Hotel("SampleHotelData.txt", console));
+        hotels.add(new Hotel("SampleHotelData.txt", console, log));
 
         while(true) {
             int command = Guest.numberOfQuestions("What would you like to do?\n" +
@@ -47,6 +51,7 @@ public class Main {
                     if(Guest.yesOrNoQuestions("Are you sure you would you like to end the program? " +
                             "If so type \"yes\" if not type \"no\"\n", console)) {
                         System.out.println("Thank you for using this program. Goodbye.");
+                        log.close();
                         System.exit(0);
                     }
                     break;
@@ -58,5 +63,7 @@ public class Main {
             // creates neat formatting
             System.out.println("\n\n\n\n");
         }
+
     }
+
 }

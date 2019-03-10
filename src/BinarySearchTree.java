@@ -13,31 +13,45 @@ public class BinarySearchTree<T extends Comparable> {
         if(node.data.compareTo(data) < 0) {
             if(node.left == null) {
                 node.left = new BinarySearchNode<>(data);
+                printAddedToTree(data);
             } else {
                 add(data, node.left);
             }
         } else if(node.data.compareTo(data) > 0) {
             if(node.right == null) {
                 node.right = new BinarySearchNode<>(data);
+                printAddedToTree(data);
             } else {
                 add(data, node.right);
             }
         } else {
             if(node.data instanceof CustomLinkedList) {
                 node.data.add(data);
+                System.out.println("Added duplicate to linked list.\n");
             }
+        }
+
+
+    }
+
+    private void printAddedToTree(T data) {
+        // remove when tested
+        if(data instanceof Room) {
+            System.out.printf("Added room %d to binary search tree.\n\n", ((Room) data).getRoomNumber());
+        } else if(data instanceof Guest) {
+            System.out.printf("Added %s to guest list.\n\n", ((Guest) data).getName());
         }
     }
 
-
-    public Comparable binarySearch(Comparable ideal) {
+    public CustomLinkedList<T> binarySearch(T ideal) {
         return binarySearch(ideal, root);
     }
 
-    private Comparable binarySearch(Comparable ideal, BinarySearchNode<T> node) {
+    private CustomLinkedList<T> binarySearch(T ideal, BinarySearchNode<T> node) {
         if(node == null) {
             return null;
         } else if(node.compareTo(ideal) == 0) {
+            System.out.println("Found Ideal Room!");
             return node.data;
         } else if(node.compareTo(ideal) < 0) {
             return binarySearch(ideal, node.left);
@@ -51,6 +65,7 @@ public class BinarySearchTree<T extends Comparable> {
     }
 
     private void printTreeInOrder(BinarySearchNode<T> node) {
+        System.out.println("Printing new node");
         if(node == null) {
             return;
         }
