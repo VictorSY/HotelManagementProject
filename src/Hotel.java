@@ -1,4 +1,3 @@
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -14,12 +13,12 @@ public class Hotel {
     private Scanner console;
 
     // Keeps a log of everything that happens
-    private BufferedWriter log;
+    private Log log;
 
     // stores the guests in the hotel
-    private ArrayList<Guest> guestList = new ArrayList<>();
+    //private ArrayList<Guest> guestList = new ArrayList<>();
     // stores the floors of the hotel, with and ArrayList of an ArrayList of Rooms
-    private ArrayList<ArrayList<Room>> floors = new ArrayList<>();
+    //private ArrayList<ArrayList<Room>> floors = new ArrayList<>();
 
     public BinarySearchTree<Room> rooms = new BinarySearchTree();
     private HashMap<Room, CustomLinkedList<Guest>> reservations = new HashMap<>();
@@ -27,7 +26,7 @@ public class Hotel {
 
 
     // creates the Hotel object using a .txt file
-    public Hotel(String hotelInfoText, Scanner console, BufferedWriter log) throws FileNotFoundException {
+    public Hotel(String hotelInfoText, Scanner console, Log log) throws FileNotFoundException {
         // stores a log of processes
         this.log = log;
         // Console input scanner assigned to object
@@ -41,13 +40,12 @@ public class Hotel {
 
     // Creates rooms on each floor with text file
     private void createHotelFloorsAndRooms(Scanner hotelData) {
+        log.write("Adding rooms to binary trees...");
         int floor = 0;
         // loops through the file
         while(hotelData.hasNextLine()) {
             // changes the floor number for each set of rooms
             floor++;
-            // creates the floor ArrayList of Rooms
-            ArrayList<Room> newFloor = new ArrayList<>();
             // grabs the number of Rooms for a floor from the file
             int numberOfRooms = hotelData.nextInt();
             hotelData.nextLine(); // takes escape characters at the end of the line into account
@@ -62,22 +60,26 @@ public class Hotel {
                     textData += " room number " + floor + (room + 1);
                 }
                 // adds the Room to the ArrayList of Rooms
-                newFloor.add(new Room(textData)); // previous argument createRoomFromText(textData)
                 rooms.add(new Room(textData)); // Implementing BST
             }
-            // adds a floor to the floors field
-            floors.add(newFloor);
         }
+        log.write("Finished adding rooms to binary trees.");
     }
 
 
     // Uses scanner to prompt for guest info
     public void createGuest() {
-        System.out.println("Creating guest...");
+        log.write("Started guest creation in Hotel...");
         Guest newGuest = new Guest(console);
-        guestList.add(newGuest);
         guestIndex.add(newGuest);
-        findRoomForGuest(newGuest);
+        if(findRoomForGuest(newGuest) == -1) {
+            log.write("No room found for guest " + newGuest.getName());
+            if(Guest.yesOrNoQuestions("Would you like to try again?", console)) {
+                log.write("Trying again...");
+                newGuest.askRoomQuestions(console);
+            }
+        }
+        log.write("Finished guest creation.");
     }
 
     // Calculates the cost of room and cost of total guests
@@ -86,80 +88,65 @@ public class Hotel {
                 guest.costOfGuests()) * 100D) / 100D;
     }
 
-    // Finds a room int the hotel given guest's requirements
-//    public int findRoomForGuest(Guest guest) {
-//        System.out.println(guest);
-//        for (ArrayList<Room> floor : floors) {
-//            for (Room room : floor) {
-//                if (!room.isEmpty()) { // Check if room is empty
-//                    continue;
-//                } else if (!room.isCleaned()) {  // Check if room is cleaned
-//                    continue;
-//                } else if (guest.getBedNum() > room.getBedNum()) { // Check guest req for number of beds
-//                    continue;
-//                } else if(!guest.getBedType().equals(room.getBedSize())) { // Check guest req for bed type
-//                    continue;
-//                } else if (guest.getRoomSize() > room.getRoomSize()) { // Check guest req for room size
-//                    continue;
-//                } else if(guest.hasPets() != room.getAllowPets()) { // Check guest req for pets
-//                    continue;
-//                } else if(makeReservation(guest, room, console)) { // Check if guest accepted reservation
-//                    return room.getRoomNumber();
-//                }
-//            }
-//        }
-//        return 0;
-//    }
     public int findRoomForGuest(Guest guest) {
-        System.out.println("Finding room for guest...");
+        log.write("Finding room for guest...");
         Room idealRoom = new Room(guest.getRoomSize(), guest.getBedType(), guest.getBedNum(), guest.hasPets());
         CustomLinkedList<Room> possibleRooms = rooms.binarySearch(idealRoom);
-        LinkedNode<Room> roomNodeFound = possibleRooms.findNode(0);
-        while(roomNodeFound != null) {
-            Room roomFound = roomNodeFound.data;
+        try {
+            LinkedNode<Room> current = possibleRooms.findNode(0);
+            while(current != null) {
+                Room roomFound = current.data;
 
-            if(makeReservation(guest, roomFound, console)) {
-                return roomFound.getRoomNumber();
+                if(makeReservation(guest, roomFound, console)) {
+                    return roomFound.getRoomNumber();
+                }
+
+                current = current.nextNode;
             }
-
-            roomNodeFound = roomNodeFound.nextNode;
+            return -1;
+        } catch(NullPointerException e) {
+            log.write("" + e);
+            return -1;
         }
-        return -1;
     }
 
     // Confirms that the user wants to make a reservation
     public boolean makeReservation(Guest guest, Room room, Scanner console) {
+        log.write("Making reservation for " + guest.getName() + "...");
         System.out.println("Do you want to reserve room: " + room.getRoomNumber());
         System.out.print("Cost: $");
         System.out.printf(totalCost(guest, room) + "\n", "%.2f");
         System.out.println(room);
         if(Guest.yesOrNoQuestions("Confirm (Yes or No): ", console)) {
-            if(!guest.checkIn(room)) {
+            if(!guest.makeReservation(room)) {
                 return false;
             }
-            guestList.add(guest);
             reservations.put(room, new CustomLinkedList<>(guest));
             System.out.println("You have reserved room " + room + ".\n\n" +
                     "Thank you for choosing " + hotelName + ".");
             System.out.println(receipt(guest));
+            log.write("Guest " + guest.getName() + " reserved room " + room.getRoomNumber());
             return true;
         } else {
+            log.write(guest.getName() + " did not confirm.");
             System.out.println("Looking for other rooms...");
             return false;
         }
     }
 
     public void cancelReservation(Guest guest) {
+        log.write("Cancelling reservation for " + guest.getName());
         if(Guest.yesOrNoQuestions("Are you sure you want to cancel? ", console)) {
+            reservations.get(guest.getRoom()).remove(guest);
             String receipt = receipt(guest);
             int dollarSignLocation = receipt.indexOf("$");
             receipt = receipt.substring(0, dollarSignLocation) + "-" + receipt.substring(dollarSignLocation); // adds negative sign to signify refund
             System.out.println(receipt);
-            guestList.remove(guest);
-            //idList.remove(guest.getUniqueId());
+            log.write(guest.getName() + " has cancelled their reservation.");
             guest.deleteReservation();
         } else {
-            System.out.println("Cancelled cancellation process.");
+            log.write(guest.getName() + "'s cancellation was cancelled.");
+            System.out.println("Cancelled reservation cancellation.");
         }
     }
 
@@ -176,28 +163,28 @@ public class Hotel {
 
     // Finds the guest in guestList and can be used to see what room they're in
     public Guest findGuestInList(String name) {
-        for(Guest guest : guestList) {
+        log.write("Finding guest " + name + " in guest index.");
+        ArrayList<Guest> list = guestIndex.find(name);
+        for(Guest guest : list) {
             if(guest.getName().equals(name)) {
+                log.write("Guest found.");
                 return guest;
             }
         }
-        throw new IllegalArgumentException();
+        log.write("Guest not found.");
+        return null;
     }
 
     // Provides a String representation of the Hotel
     public String toString() {
         String returnString = hotelName + "\n";
-        for(ArrayList<Room> floor : floors) {
-            for(Room room : floor) {
-                returnString += (room.toString() + "\n\n");
-            }
-        }
+        rooms.printTreeInOrder();
         return returnString;
     }
 
     // accessor method for the guestList
-    public ArrayList<Guest> getGuestList() {
-        return guestList;
+    public AlphabetIndex getGuestIndex() {
+        return guestIndex;
     }
 
 }

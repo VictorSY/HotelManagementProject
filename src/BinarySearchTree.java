@@ -51,7 +51,6 @@ public class BinarySearchTree<T extends Comparable> {
         if(node == null) {
             return null;
         } else if(node.compareTo(ideal) == 0) {
-            System.out.println("Found Ideal Room!");
             return node.data;
         } else if(node.compareTo(ideal) < 0) {
             return binarySearch(ideal, node.left);
@@ -63,14 +62,25 @@ public class BinarySearchTree<T extends Comparable> {
     public void printTreeInOrder() {
         printTreeInOrder(root);
     }
-
     private void printTreeInOrder(BinarySearchNode<T> node) {
-        System.out.println("Printing new node");
         if(node == null) {
             return;
         }
         printTreeInOrder(node.left);
         System.out.println(node.toString());
+        printTreeInOrder(node.right);
+    }
+
+    public void printTreePreOrder() {
+        printTreePreOrder(root);
+    }
+
+    private void printTreePreOrder(BinarySearchNode<T> node) {
+        if(node == null) {
+            return;
+        }
+        System.out.println(node.toString());
+        printTreeInOrder(node.left);
         printTreeInOrder(node.right);
     }
 }

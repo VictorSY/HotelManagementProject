@@ -1,6 +1,7 @@
 import java.util.Scanner;
 
 public class Guest implements Comparable {
+
     // all discounts apply 0.8 to total coast
     private boolean isMembership;
     private boolean isMilitary;
@@ -13,6 +14,8 @@ public class Guest implements Comparable {
 
     private String name;
     private long cardNum;
+    private int csv;
+
     // reservationDays
 
     private String bedType;
@@ -41,8 +44,7 @@ public class Guest implements Comparable {
 
     public Guest(boolean isMembership, boolean isMilitary, boolean isGovernment,
                  int numOfSeniors, int numOfAdults, int numOfChildren,
-                 boolean hasPets, String name, int cardNum, String bedType
-            , int bedNum) {
+                 boolean hasPets, String name, int cardNum, String bedType, int bedNum) {
         this.isMembership = isMembership;
         this.isMilitary = isMilitary;
         this.isGovernment = isGovernment;
@@ -56,7 +58,6 @@ public class Guest implements Comparable {
 
         this.bedType = bedType;
         this.bedNum = bedNum;
-
     }
 
     // Guest creation through scanner
@@ -64,15 +65,18 @@ public class Guest implements Comparable {
         System.out.print("What is your full name? ");
         this.name = console.nextLine().trim();
         System.out.println();
-
         System.out.println("For the next few questions answer with a single integer.");
-        this.cardNum = getCreditCard(console);
+        getCreditCard(console);
         this.numOfAdults = numberOfQuestions("How many adults? ", console);
         this.numOfSeniors = numberOfQuestions("How many seniors? ", console);
         this.numOfChildren = numberOfQuestions("How many children? ", console);
+        askRoomQuestions(console);
+    }
+
+    public void askRoomQuestions(Scanner console) {
         this.roomSize = numberOfQuestions("How big does your room need to be? (square feet) ", console);
         this.bedNum = numberOfQuestions("How many beds? ", console);
-        int bedType = numberOfQuestions("What bed type? (king = 1, queen = 2, twin = 3, single = 4) ", console);
+        int bedType = numberOfQuestions("What bed type? (single = 1, twin = 2, queen = 3, king = 4) ", console);
         switch (bedType) {
             case 1:
                 this.bedType = "single";
@@ -94,27 +98,38 @@ public class Guest implements Comparable {
         this.isMilitary = yesOrNoQuestions("Are you a veteran? ", console);
         this.isGovernment = yesOrNoQuestions("Are you a government employee? ", console);
         this.hasPets = yesOrNoQuestions("Do you have pets? ", console);
-
     }
 
-    public static long getCreditCard(Scanner console) {
-        System.out.print("What is our card number? ");
-        long cardNumber;
+    public void getCreditCard(Scanner console) {
+        System.out.print("What is your card number? ");
         String input;
         while(true) {
             try {
                 input = console.nextLine().replaceAll("[^0-9]", "");
-                if(input.length() < 16) {
+                if(input.length() != 16) {
                     throw new NumberFormatException();
                 }
-                cardNumber = Long.parseLong(input);
+                this.cardNum = Long.parseLong(input);
                 break;
             } catch(NumberFormatException e) {
                 System.out.println("Invalid number. Try again.");
-                System.out.print("What is our card number? ");
+                System.out.print("What is your card number? ");
             }
         }
-        return cardNumber;
+        System.out.print("What is your CSV number? ");
+        while(true) {
+            try {
+                input = console.nextLine().replaceAll("[^0-9]", "");
+                if(input.length() != 3) {
+                    throw new NumberFormatException();
+                }
+                this.csv = Integer.parseInt(input);
+                break;
+            } catch(NumberFormatException e) {
+                System.out.println("Invalid number. Try again.");
+                System.out.print("What is your CSV number? ");
+            }
+        }
     }
 
     public static boolean yesOrNoQuestions(String question, Scanner console) {
@@ -159,31 +174,18 @@ public class Guest implements Comparable {
         return total;
     }
 
-    public boolean checkIn(Room room) {
-        // Guest check in (use Room class)
-        if(this.room != null) {
-            System.out.println(name + " already has a room");
-            return false;
-        }
+
+    public boolean makeReservation(Room room) {
         this.room = room;
         this.room.addGuest(this);
         return true;
     }
 
-    public void makeReservation(Room room) {
-        this.room = room;
-        this.room.addGuest(this);
-    }
-
     public void deleteReservation() {
         room.removeGuest(this);
+        this.room = null;
     }
 
-    public void checkOut() {
-        // Guest check out (use Room class)
-        room.removeGuest();
-        room = null;
-    }
 
 
     // compares this guest to another guest

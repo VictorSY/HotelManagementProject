@@ -67,7 +67,6 @@ public class CustomLinkedList<T extends Comparable> implements Comparable {
     @Override
     // only compares the first element in the list
     public int compareTo(Object o) {
-        System.out.println("Comparing two linked lists...");
         if(o instanceof CustomLinkedList) {
             if(front != null && ((CustomLinkedList) o).findNode(0) != null) {
                 return front.compareTo(((CustomLinkedList) o).findNode(0));

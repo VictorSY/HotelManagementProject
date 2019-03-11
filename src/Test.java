@@ -1,14 +1,13 @@
-import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 
 public class Test {
     public static void main(String[] args) throws IOException {
-        BufferedWriter log = new BufferedWriter(new FileWriter("Logs/" + java.time.LocalDate.now().toString() + ".txt"));
+        Log log = new Log();
         Scanner console = new Scanner(System.in);
         Hotel hotel = new Hotel("SampleHotelData.txt", console, log);
         hotel.rooms.printTreeInOrder();
         hotel.createGuest();
+        System.out.println(hotel.getGuestIndex().toString());
     }
 }

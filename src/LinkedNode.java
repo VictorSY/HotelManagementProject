@@ -16,9 +16,7 @@ public class LinkedNode<T extends Comparable> implements Comparable {
 
     @Override
     public int compareTo(Object o) {
-        System.out.println("Comparing two linked nodes...");
         if(o instanceof Comparable) {
-            System.out.println("Returning something in Linked Node.");
             return data.compareTo(o);
         } else {
             throw new IllegalArgumentException("Invalid compare type in Linked Node.");

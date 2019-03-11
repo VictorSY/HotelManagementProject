@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class AlphabetIndex<T extends Comparable> {
     private CustomLinkedList[] index;
 
@@ -37,5 +39,32 @@ public class AlphabetIndex<T extends Comparable> {
         return index[letter].contains(data);
     }
 
+    public String toString() {
+        String returnString = "";
+        for(int i = 0; i < index.length; i++) {
+            if(index[i] != null) {
+                returnString += (char) (i + 41) + index[i].toString();
+            }
+        }
+        return returnString;
+    }
+
+    public ArrayList<T> find(String data) {
+        System.out.println("Finding " + data);
+        ArrayList<T> returnList = new ArrayList<>();
+        int letter = data.toLowerCase().charAt(0) - 97;
+        if(index[letter] == null) {
+            System.out.println("Index letter empty.");
+            return returnList;
+        }
+        LinkedNode<T> current = index[letter].findNode(0);
+        while(current != null) {
+            if(current.toString().toLowerCase().equals(data.toLowerCase())) {
+                returnList.add(current.data);
+            }
+            current = current.nextNode;
+        }
+        return returnList;
+    }
 
 }

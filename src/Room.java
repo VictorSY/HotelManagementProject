@@ -12,7 +12,7 @@ public class Room implements Comparable {
     // the cost of reserving this room
     private double cost;
     // the guest attached to this room
-    private CustomLinkedList<Guest> reservations;
+    private CustomLinkedList<Guest> reservations = new CustomLinkedList<>();
     // whether the room allows for pets
     private boolean allowsPets;
     // whether the room isCleaned
@@ -26,13 +26,11 @@ public class Room implements Comparable {
         this.bedNum = 1;
         this.cost = 89.99;
         // changed the Guest value to default so the toString method would work properly
-        reservations = new CustomLinkedList<>();
         this.allowsPets = false;
     }
 
     // the constructor that will typically be used for Rooms
     public Room(int roomNum, int roomSize, String bedSize, int bedNum, double cost, Guest guest, boolean allowPets) {
-        reservations = new CustomLinkedList<>();
         this.roomNum = roomNum;
         this.roomSize = roomSize;
         setBedSize(bedSize);
@@ -160,6 +158,12 @@ public class Room implements Comparable {
 
     // adds a guest
     public void addGuest(Guest guest) {
+        System.out.printf("Added guest to room %s.", roomNum);
+        if(guest == null) {
+            System.out.println("Null guest");
+        } else if(reservations == null) {
+            System.out.println("Reservations is null");
+        }
         reservations.add(guest);
     }
 
