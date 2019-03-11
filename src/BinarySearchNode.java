@@ -1,4 +1,5 @@
-public class BinarySearchNode<T extends Comparable> implements Comparable {
+public class
+BinarySearchNode<T extends Comparable> implements Comparable {
     public CustomLinkedList<T> data;
     public BinarySearchNode<T> left;
     public BinarySearchNode<T> right;

@@ -142,8 +142,9 @@ public class Hotel {
             int dollarSignLocation = receipt.indexOf("$");
             receipt = receipt.substring(0, dollarSignLocation) + "-" + receipt.substring(dollarSignLocation); // adds negative sign to signify refund
             System.out.println(receipt);
-            log.write(guest.getName() + " has cancelled their reservation.");
+            guestIndex.remove(guest);
             guest.deleteReservation();
+            log.write(guest.getName() + " has cancelled their reservation.");
         } else {
             log.write(guest.getName() + "'s cancellation was cancelled.");
             System.out.println("Cancelled reservation cancellation.");
