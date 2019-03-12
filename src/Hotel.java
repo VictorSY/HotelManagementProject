@@ -12,9 +12,6 @@ public class Hotel {
     // The scanner to be used for command line prompts
     private Scanner console;
 
-    // Keeps a log of everything that happens
-    private Log log;
-
     // A binary search tree that contains CustomLinkedLists of similar rooms
     public BinarySearchTree<Room> rooms = new BinarySearchTree();
 
@@ -26,9 +23,8 @@ public class Hotel {
 
 
     // creates the Hotel object using a .txt file
-    public Hotel(String hotelInfoText, Scanner console, Log log) throws FileNotFoundException {
+    public Hotel(String hotelInfoText, Scanner console) throws FileNotFoundException {
         // stores a log of processes
-        this.log = log;
         // Console input scanner assigned to object
         this.console = console;
         Scanner hotelData = new Scanner(new File(hotelInfoText));
@@ -40,7 +36,6 @@ public class Hotel {
 
     // Creates rooms on each floor with text file
     private void createHotelFloorsAndRooms(Scanner hotelData) {
-        log.write("Adding rooms to binary trees...");
         int floor = 0;
         // loops through the file
         while(hotelData.hasNextLine()) {
@@ -63,26 +58,22 @@ public class Hotel {
                 rooms.add(new Room(textData)); // Implementing BST
             }
         }
-        log.write("Finished adding rooms to binary trees.");
     }
 
 
     // Uses scanner to prompt for guest info
     public void createGuest() {
-        log.write("Started guest creation in Hotel...");
         Guest newGuest = new Guest(console);
         guestIndex.add(newGuest);
         boolean tryAgain = true;
         while(findRoomForGuest(newGuest) == -1 && tryAgain) {
             tryAgain = false;
-            log.write("No room found for guest " + newGuest.getName());
+            System.out.println("No room found.");
             if(Guest.yesOrNoQuestions("Would you like to try again?", console)) {
                 tryAgain = true;
-                log.write("Trying again...");
                 newGuest.askRoomQuestions(console);
             }
         }
-        log.write("Finished guest creation.");
     }
 
 
@@ -94,7 +85,6 @@ public class Hotel {
 
     // Finds a room for guest and asks if they want it
     public int findRoomForGuest(Guest guest) {
-        log.write("Finding room for guest...");
         Room idealRoom = new Room(guest.getRoomSize(), guest.getBedType(), guest.getBedNum(), guest.hasPets()); // creation of the ideal room
         // for the customer
         CustomLinkedList<Room> possibleRooms = rooms.binarySearch(idealRoom); // find room matches for customer
@@ -113,19 +103,18 @@ public class Hotel {
             return -1;
         } catch(NullPointerException e) {
             // Sometimes the ideal room cannot find any matches in the binary tree
-            log.write("" + e);
             return -1;
         }
     }
 
     // Confirms that the user wants to make a reservation
     public boolean makeReservation(Guest guest, Room room, Scanner console) {
-        log.write("Making reservation for " + guest.getName() + "...");
         System.out.println("Do you want to reserve room: " + room.getRoomNumber());
-        System.out.print("Cost: $");
-        System.out.printf(totalCost(guest, room) + "\n", "%.2f");
         System.out.println(room);
+        System.out.printf("\tOccupant Cost: $%.2f\n", guest.costOfGuests());
+        System.out.println("Total Cost (including discounts): $" + totalCost(guest, room));
         if(Guest.yesOrNoQuestions("Confirm (Yes or No): ", console)) {
+            // if time is ever implemented, it will be implemented in Guest.makeReservation(Room)
             if(!guest.makeReservation(room)) {
                 return false;
             }
@@ -133,10 +122,8 @@ public class Hotel {
             System.out.println("You have reserved room " + room + ".\n\n" +
                     "Thank you for choosing " + hotelName + ".");
             System.out.println(receipt(guest));
-            log.write("Guest " + guest.getName() + " reserved room " + room.getRoomNumber());
             return true;
         } else {
-            log.write(guest.getName() + " did not confirm.");
             System.out.println("Looking for other rooms...");
             return false;
         }
@@ -144,13 +131,13 @@ public class Hotel {
 
     // Cancels a reservation given a guest
     public void cancelReservation(Guest guest) {
-        log.write("Cancelling reservation for " + guest.getName());
         if(Guest.yesOrNoQuestions("Are you sure you want to cancel? ", console)) {
 
             // adds negative sign to signify refund
             String receipt = receipt(guest);
-            int dollarSignLocation = receipt.indexOf("$");
-            receipt = receipt.substring(0, dollarSignLocation) + "-" + receipt.substring(dollarSignLocation);
+
+            // needs to be FIXED
+            receipt.replaceAll("\\$", "hhh");
             System.out.println(receipt);
 
             // remove guest from multiple places
@@ -158,9 +145,7 @@ public class Hotel {
             guestIndex.remove(guest);
             guest.deleteReservation();
 
-            log.write(guest.getName() + " has cancelled their reservation.");
         } else {
-            log.write(guest.getName() + "'s cancellation was cancelled.");
             System.out.println("Cancelled reservation cancellation.");
         }
     }
@@ -172,21 +157,23 @@ public class Hotel {
                 "\n\tGuest: " + guest.getName() +
                 "\n\tBilling Info: " + guest.getCardNum() +
                 "\n\t" + guest.getRoom().toString() +
-                "\n\tCost: $" + totalCost(guest, guest.getRoom()) + "\n" +
-                guest.toFormattedString();
+                "\n\tOccupants Cost: $" + guest.costOfGuests() +
+                "\n\tTotal Cost: $" + totalCost(guest, guest.getRoom()) + "\n";
     }
 
     // Finds the guest in guestList and can be used to see what room they're in
     public Guest findGuestInList(String name) {
-        log.write("Finding guest " + name + " in guest index.");
         ArrayList<Guest> list = guestIndex.find(name);
-        for(Guest guest : list) {
-            if(guest.getName().equals(name)) {
-                log.write("Guest found.");
-                return guest;
+        if(list.size() == 1) {
+            return list.get(0);
+        }
+        if(list.size() > 1) {
+            for(Guest guest : list) {
+                if(Guest.yesOrNoQuestions("Is this you? \n" + guest.toFormattedString(), console)) {
+                    return guest;
+                }
             }
         }
-        log.write("Guest not found.");
         return null;
     }
 

@@ -218,7 +218,7 @@ public class Room implements Comparable {
 
     public String toString() {
         return "Room Number: " + roomNum +
-                "\n\tRoom Cost: " + cost +
+                "\n\tRoom Cost: $" + cost +
                 "\n\tRoom Size: " + roomSize +
                 "\n\tBed Number: " + bedNum +
                 "\n\tBed Size: " + bedSize +

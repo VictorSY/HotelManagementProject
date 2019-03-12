@@ -205,6 +205,7 @@ public class Guest implements Comparable {
 
     // Add guest to room and room to guest
     public boolean makeReservation(Room room) {
+        // if date is ever implemented, it will return false if room is unavailable that day
         this.room = room;
         this.room.addGuest(this);
         return true;
@@ -320,10 +321,10 @@ public class Guest implements Comparable {
                 "\n\tNumber of Seniors: " + numOfSeniors +
                 "\n\tNumber of Adults: " + numOfAdults +
                 "\n\tNumber of Children: " + numOfChildren +
+                "\n\tCost of Occupants: $" + costOfGuests() +
                 "\n\tBed Type: " + bedType +
                 "\n\tBed Number: " + bedNum +
-                "\n\tRoom Size: " + roomSize +
-                "\n\tRoom: " + room;
+                "\n\tRoom Size: " + roomSize;
 
     }
 
@@ -337,7 +338,6 @@ public class Guest implements Comparable {
     // Feeder method for compareTo(Guest)
     public int compareTo(Object o) {
         if(o instanceof Guest) {
-            System.out.println("Returning something in Guest.");
             return compareTo((Guest) o);
         } else {
             throw new IllegalArgumentException("Guest compared with invalid type.");

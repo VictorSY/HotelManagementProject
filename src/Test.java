@@ -3,9 +3,8 @@ import java.util.Scanner;
 
 public class Test {
     public static void main(String[] args) throws IOException {
-        Log log = new Log();
         Scanner console = new Scanner(System.in);
-        Hotel hotel = new Hotel("SampleHotelData.txt", console, log);
+        Hotel hotel = new Hotel("SampleHotelData.txt", console);
         hotel.rooms.printTreeInOrder();
         hotel.createGuest();
         System.out.println(hotel.getGuestIndex().toString());
