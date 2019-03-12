@@ -137,8 +137,16 @@ public class Hotel {
             String receipt = receipt(guest);
 
             // needs to be FIXED
-            receipt.replaceAll("\\$", "hhh");
-            System.out.println(receipt);
+            String refundReceipt = "";
+            String s;
+            for(int i = 0; i < receipt.length(); i++) {
+                s = receipt.substring(i, i + 1);
+                if(s.equals("$")) {
+                    s = "-$";
+                }
+                refundReceipt += s;
+            }
+            System.out.println(refundReceipt);
 
             // remove guest from multiple places
             reservations.get(guest.getRoom()).remove(guest);
@@ -169,7 +177,8 @@ public class Hotel {
         }
         if(list.size() > 1) {
             for(Guest guest : list) {
-                if(Guest.yesOrNoQuestions("Is this you? \n" + guest.toFormattedString(), console)) {
+                if(Guest.yesOrNoQuestions("Is this you? \n" + guest.toFormattedString() + totalCost(guest, guest.getRoom())
+                        + "\n" + "\n Yes or No? ", console)) {
                     return guest;
                 }
             }

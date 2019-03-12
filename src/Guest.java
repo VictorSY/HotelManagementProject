@@ -199,6 +199,7 @@ public class Guest implements Comparable {
         if (isMembership || isMilitary || isGovernment) {
             total *= 0.8;
         }
+        total = (int) (total * 100) / 100.0;
         return total;
     }
 
