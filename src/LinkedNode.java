@@ -15,8 +15,11 @@ public class LinkedNode<T extends Comparable> implements Comparable {
     }
 
     @Override
+    // compares the data if comparable or throws exception
     public int compareTo(Object o) {
-        if(o instanceof Comparable) {
+        if(o instanceof LinkedNode) {
+            return data.compareTo(((LinkedNode) o).data);
+        } else if(o instanceof Comparable) {
             return data.compareTo(o);
         } else {
             throw new IllegalArgumentException("Invalid compare type in Linked Node.");

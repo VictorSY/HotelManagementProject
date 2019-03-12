@@ -49,12 +49,12 @@ public class AlphabetIndex<T extends Comparable> {
         return returnString;
     }
 
+    // Find a guest from their name
     public ArrayList<T> find(String data) {
-        System.out.println("Finding " + data);
         ArrayList<T> returnList = new ArrayList<>();
+        // gets first character, makes it lowercase, and shifts the value to match array
         int letter = data.toLowerCase().charAt(0) - 97;
         if(index[letter] == null) {
-            System.out.println("Index letter empty.");
             return returnList;
         }
         LinkedNode<T> current = index[letter].findNode(0);

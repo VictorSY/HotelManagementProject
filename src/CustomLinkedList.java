@@ -8,6 +8,7 @@ public class CustomLinkedList<T extends Comparable> implements Comparable {
         add(data);
     }
 
+    // adds a node with generic data T
     public void add(T data) {
         if(front == null) {
             front = new LinkedNode(data);
@@ -20,6 +21,7 @@ public class CustomLinkedList<T extends Comparable> implements Comparable {
         }
     }
 
+    // removes the first node that contains generic data T
     public void remove(T data) {
         if(front == null) {
             return;
@@ -39,6 +41,7 @@ public class CustomLinkedList<T extends Comparable> implements Comparable {
         }
     }
 
+    // finds the node with corresponding index number
     public LinkedNode<T> findNode(int index) {
         LinkedNode<T> current = front;
         for(int i = 0; i < index && current != null; i++) {
@@ -50,6 +53,7 @@ public class CustomLinkedList<T extends Comparable> implements Comparable {
         return null;
     }
 
+    // determine if list contains the same object
     public boolean contains(T data) {
         LinkedNode<T> current = front;
         while(current.nextNode != null) {
@@ -60,6 +64,7 @@ public class CustomLinkedList<T extends Comparable> implements Comparable {
         return false;
     }
 
+    // determine if list is empty
     public boolean isEmpty() {
         return front == null;
     }
@@ -82,6 +87,7 @@ public class CustomLinkedList<T extends Comparable> implements Comparable {
         }
     }
 
+    // returns a block text representation of the linked list's elements
     public String toString() {
         String returnString = "LinkedList: \n";
         LinkedNode current = front;

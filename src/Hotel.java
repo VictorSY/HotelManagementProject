@@ -15,13 +15,13 @@ public class Hotel {
     // Keeps a log of everything that happens
     private Log log;
 
-    // stores the guests in the hotel
-    //private ArrayList<Guest> guestList = new ArrayList<>();
-    // stores the floors of the hotel, with and ArrayList of an ArrayList of Rooms
-    //private ArrayList<ArrayList<Room>> floors = new ArrayList<>();
-
+    // A binary search tree that contains CustomLinkedLists of similar rooms
     public BinarySearchTree<Room> rooms = new BinarySearchTree();
+
+    // A hash map for looking for occupants of certain rooms
     private HashMap<Room, CustomLinkedList<Guest>> reservations = new HashMap<>();
+
+    // A Index of guests that have been to the hotel
     private AlphabetIndex<Guest> guestIndex = new AlphabetIndex<>();
 
 
@@ -72,15 +72,19 @@ public class Hotel {
         log.write("Started guest creation in Hotel...");
         Guest newGuest = new Guest(console);
         guestIndex.add(newGuest);
-        if(findRoomForGuest(newGuest) == -1) {
+        boolean tryAgain;
+        do {
+            tryAgain = false;
             log.write("No room found for guest " + newGuest.getName());
             if(Guest.yesOrNoQuestions("Would you like to try again?", console)) {
+                tryAgain = true;
                 log.write("Trying again...");
                 newGuest.askRoomQuestions(console);
             }
-        }
+        } while(findRoomForGuest(newGuest) == -1 && tryAgain);
         log.write("Finished guest creation.");
     }
+
 
     // Calculates the cost of room and cost of total guests
     public double totalCost(Guest guest, Room room) {
@@ -88,23 +92,27 @@ public class Hotel {
                 guest.costOfGuests()) * 100D) / 100D;
     }
 
+    // Finds a room for guest and asks if they want it
     public int findRoomForGuest(Guest guest) {
         log.write("Finding room for guest...");
-        Room idealRoom = new Room(guest.getRoomSize(), guest.getBedType(), guest.getBedNum(), guest.hasPets());
-        CustomLinkedList<Room> possibleRooms = rooms.binarySearch(idealRoom);
+        Room idealRoom = new Room(guest.getRoomSize(), guest.getBedType(), guest.getBedNum(), guest.hasPets()); // creation of the ideal room
+        // for the customer
+        CustomLinkedList<Room> possibleRooms = rooms.binarySearch(idealRoom); // find room matches for customer
         try {
             LinkedNode<Room> current = possibleRooms.findNode(0);
             while(current != null) {
                 Room roomFound = current.data;
 
+                // Tries to make a reservation. If confirmed by customer, the room number is returned
                 if(makeReservation(guest, roomFound, console)) {
                     return roomFound.getRoomNumber();
                 }
-
                 current = current.nextNode;
             }
+            // if no matched rooms are accepted
             return -1;
         } catch(NullPointerException e) {
+            // Sometimes the ideal room cannot find any matches in the binary tree
             log.write("" + e);
             return -1;
         }
@@ -134,16 +142,22 @@ public class Hotel {
         }
     }
 
+    // Cancels a reservation given a guest
     public void cancelReservation(Guest guest) {
         log.write("Cancelling reservation for " + guest.getName());
         if(Guest.yesOrNoQuestions("Are you sure you want to cancel? ", console)) {
-            reservations.get(guest.getRoom()).remove(guest);
+
+            // adds negative sign to signify refund
             String receipt = receipt(guest);
             int dollarSignLocation = receipt.indexOf("$");
-            receipt = receipt.substring(0, dollarSignLocation) + "-" + receipt.substring(dollarSignLocation); // adds negative sign to signify refund
+            receipt = receipt.substring(0, dollarSignLocation) + "-" + receipt.substring(dollarSignLocation);
             System.out.println(receipt);
+
+            // remove guest from multiple places
+            reservations.get(guest.getRoom()).remove(guest);
             guestIndex.remove(guest);
             guest.deleteReservation();
+
             log.write(guest.getName() + " has cancelled their reservation.");
         } else {
             log.write(guest.getName() + "'s cancellation was cancelled.");
@@ -153,8 +167,8 @@ public class Hotel {
 
     // Prints receipt
     public String receipt(Guest guest) {
-        return "Receipt\n" +
-                "\tHotel: " + hotelName +
+        return "Receipt" +
+                "\n\tHotel: " + hotelName +
                 "\n\tGuest: " + guest.getName() +
                 "\n\tBilling Info: " + guest.getCardNum() +
                 "\n\t" + guest.getRoom().toString() +
