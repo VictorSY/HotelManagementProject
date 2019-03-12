@@ -15,4 +15,4 @@ the rooms to be changed. The first number indicates how many rooms followed by l
 and data is entered "field", then space, then its value. The program will assume that the text file is entered correctly
 but it gives a bit of leeway on the formatting.
 
-Rooms that have been reserved are set to unclean and there is currently no function that will clean them.
+To guarantee the chance of booking a room, use the text file to reference a room.

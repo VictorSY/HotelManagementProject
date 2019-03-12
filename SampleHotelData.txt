@@ -1,35 +1,35 @@
 Sample Hotel 
 20
+cost $89.99 bed size=single pet no bed number:1  room size 300
+cost $89.99 bed size=single pet yes bed number:1  room size 300
+cost $89.99 bed size=twin pet no bed number:1  room size 300
+cost $89.99 bed size=twin pet yes bed number:2  room size 300
+cost $89.99 bed size=twin pet no bed number:1  room size 300
+cost $89.99 bed size=twin pet yes bed number:2  room size 300
 cost $89.99 bed size=twin pet no bed number:1  room size 300
 cost $89.99 bed size=twin pet yes bed number:1  room size 300
 cost $89.99 bed size=twin pet no bed number:1  room size 300
-cost $89.99 bed size=twin pet yes bed number:1  room size 300
+cost $89.99 bed size=twin pet yes bed number:3  room size 300
+cost $89.99 bed size=twin pet no bed number:1  room size 300
+cost $89.99 bed size=twin pet yes bed number:2  room size 300
 cost $89.99 bed size=twin pet no bed number:1  room size 300
 cost $89.99 bed size=twin pet yes bed number:1  room size 300
-cost $89.99 bed size=twin pet no bed number:1  room size 300
+cost $89.99 bed size=twin pet no bed number:2  room size 300
+cost $89.99 bed size=twin pet yes bed number:1  room size 300
+cost $89.99 bed size=single pet no bed number:4  room size 300
 cost $89.99 bed size=twin pet yes bed number:1  room size 300
 cost $89.99 bed size=twin pet no bed number:1  room size 300
-cost $89.99 bed size=twin pet yes bed number:1  room size 300
-cost $89.99 bed size=twin pet no bed number:1  room size 300
-cost $89.99 bed size=twin pet yes bed number:1  room size 300
-cost $89.99 bed size=twin pet no bed number:1  room size 300
-cost $89.99 bed size=twin pet yes bed number:1  room size 300
-cost $89.99 bed size=twin pet no bed number:1  room size 300
-cost $89.99 bed size=twin pet yes bed number:1  room size 300
-cost $89.99 bed size=twin pet no bed number:1  room size 300
-cost $89.99 bed size=twin pet yes bed number:1  room size 300
-cost $89.99 bed size=twin pet no bed number:1  room size 300
-cost $89.99 bed size=twin pet yes bed number:1  room size 300
+cost $89.99 bed size=single pet yes bed number:3  room size 300
 
 12
-cost $119.99 bed size=queen pet no bed number:1  room size 500
+cost $119.99 bed size=single pet no bed number:1  room size 500
+cost $119.99 bed size=single pet yes bed number:2 room size 500
+cost $119.99 bed size=twin pet no bed number:3  room size 500
+cost $119.99 bed size=twin pet yes bed number:4 room size 500
+cost $119.99 bed size=queen pet no bed number:5  room size 500
 cost $119.99 bed size=queen pet yes bed number:1 room size 500
-cost $119.99 bed size=queen pet no bed number:1  room size 500
-cost $119.99 bed size=queen pet yes bed number:1 room size 500
-cost $119.99 bed size=queen pet no bed number:1  room size 500
-cost $119.99 bed size=queen pet yes bed number:1 room size 500
-cost $119.99 bed size=queen pet no bed number:1  room size 500
-cost $119.99 bed size=queen pet yes bed number:1 room size 500
+cost $119.99 bed size=king pet no bed number:2  room size 500
+cost $119.99 bed size=king pet yes bed number:1 room size 500
 cost $119.99 bed size=twin pet no bed number:2   room size 500
 cost $119.99 bed size=twin pet yes bed number:2  room size 500
 cost $119.99 bed size=twin pet no bed number:2   room size 500
@@ -37,9 +37,9 @@ cost $119.99 bed size=twin pet yes bed number:2  room size 500
 
 10
 cost $149.99 bed size=king pet no bed number:1 room size 600
-cost $149.99 bed size=king pet yes bed number:1  room size 600
+cost $149.99 bed size=single pet yes bed number:2  room size 600
 cost $149.99 bed size=king pet no bed number:1 room size 600
-cost $149.99 bed size=king pet yes bed number:1 room size 600
+cost $149.99 bed size=single pet yes bed number:2 room size 600
 cost $149.99 bed size=king pet no bed number:1 room size 600
 cost $149.99 bed size=king pet yes bed number:1 room size 600
 cost $149.99 bed size=queen pet no bed number:2 room size 600

@@ -72,8 +72,8 @@ public class Hotel {
         log.write("Started guest creation in Hotel...");
         Guest newGuest = new Guest(console);
         guestIndex.add(newGuest);
-        boolean tryAgain;
-        do {
+        boolean tryAgain = true;
+        while(findRoomForGuest(newGuest) == -1 && tryAgain) {
             tryAgain = false;
             log.write("No room found for guest " + newGuest.getName());
             if(Guest.yesOrNoQuestions("Would you like to try again?", console)) {
@@ -81,7 +81,7 @@ public class Hotel {
                 log.write("Trying again...");
                 newGuest.askRoomQuestions(console);
             }
-        } while(findRoomForGuest(newGuest) == -1 && tryAgain);
+        }
         log.write("Finished guest creation.");
     }
 

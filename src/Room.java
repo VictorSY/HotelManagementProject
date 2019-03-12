@@ -15,8 +15,6 @@ public class Room implements Comparable {
     private CustomLinkedList<Guest> reservations = new CustomLinkedList<>();
     // whether the room allows for pets
     private boolean allowsPets;
-    // whether the room isCleaned
-    private boolean isCleaned = true;
 
     // the default constructor for the Room object
     public Room() {
@@ -191,11 +189,6 @@ public class Room implements Comparable {
         return this.reservations.findNode(0) == null;
     }
 
-    // determines if the Room is cleaned
-    public boolean isCleaned() {
-        return isCleaned;
-    }
-
     // compares this room with another room
     // int roomSize;
     // String bedSize;
@@ -229,8 +222,7 @@ public class Room implements Comparable {
                 "\n\tRoom Size: " + roomSize +
                 "\n\tBed Number: " + bedNum +
                 "\n\tBed Size: " + bedSize +
-                "\n\tPet allowed: " + allowsPets +
-                "\n\tCleaned: " + isCleaned;
+                "\n\tPet allowed: " + allowsPets;
     }
 
     @Override

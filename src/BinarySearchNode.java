@@ -10,7 +10,6 @@ BinarySearchNode<T extends Comparable> implements Comparable {
 
     // Compares the node with another Comparable object or throws an error
     public int compareTo(Object o) {
-        System.out.println("Compared two binary tree nodes...");
         if(o instanceof BinarySearchNode) {
             // nodes themselves can't be compared so their data is
             return data.compareTo(((BinarySearchNode) o).data);

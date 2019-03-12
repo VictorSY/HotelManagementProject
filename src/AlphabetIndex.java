@@ -51,6 +51,7 @@ public class AlphabetIndex<T extends Comparable> {
 
     // Find a guest from their name
     public ArrayList<T> find(String data) {
+        data = data.replaceAll("[^a-z\\s]", "").trim().toLowerCase();
         ArrayList<T> returnList = new ArrayList<>();
         // gets first character, makes it lowercase, and shifts the value to match array
         int letter = data.toLowerCase().charAt(0) - 97;
@@ -59,7 +60,8 @@ public class AlphabetIndex<T extends Comparable> {
         }
         LinkedNode<T> current = index[letter].findNode(0);
         while(current != null) {
-            if(current.toString().toLowerCase().equals(data.toLowerCase())) {
+            // Only compares the name part of the string
+            if(current.toString().replaceAll("[^a-z\\s-A-Z']", "").trim().toLowerCase().equals(data)) {
                 returnList.add(current.data);
             }
             current = current.nextNode;

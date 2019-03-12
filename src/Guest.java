@@ -125,7 +125,9 @@ public class Guest implements Comparable {
 
     // Asks the room info like bed number,bed type, size of room, pets
     public void askRoomQuestions(Scanner console) {
-        this.roomSize = numberOfQuestions("How big does your room need to be? (square feet) ", console);
+        this.roomSize = numberOfQuestions("How big does your room need to be? \n " +
+                "Available sizes in square feet: " +
+                "\n\t300\n\t500\n\t600\n", console);
         this.bedNum = numberOfQuestions("How many beds? ", console);
         int bedType = numberOfQuestions("What bed type? (single = 1, twin = 2, queen = 3, king = 4) ", console);
         switch (bedType) {
